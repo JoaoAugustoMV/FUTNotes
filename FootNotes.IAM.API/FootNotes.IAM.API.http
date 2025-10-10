@@ -1,0 +1,6 @@
+@FootNotes.IAM.API_HostAddress = http://localhost:5022
+
+GET {{FootNotes.IAM.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
