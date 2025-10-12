@@ -45,8 +45,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FootNotes.MatchManagement.A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
 	ProjectSection(SolutionItems) = preProject
+		..\.gitignore = ..\.gitignore
 		..\README.md = ..\README.md
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FootNotes.Crosscuting.Logging", "..\FootNotes.Crosscuting.Logging\FootNotes.Crosscuting.Logging.csproj", "{BD9152C1-CEB7-429D-A844-EDCABA737C92}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -114,6 +117,10 @@ Global
 		{D126EB84-DC73-4742-8618-FBECB7E09515}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D126EB84-DC73-4742-8618-FBECB7E09515}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D126EB84-DC73-4742-8618-FBECB7E09515}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD9152C1-CEB7-429D-A844-EDCABA737C92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD9152C1-CEB7-429D-A844-EDCABA737C92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD9152C1-CEB7-429D-A844-EDCABA737C92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD9152C1-CEB7-429D-A844-EDCABA737C92}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -133,6 +140,7 @@ Global
 		{1ACA61D8-A2B2-4D31-94F1-5DB5B7113D56} = {8799EBF8-E1EB-430A-998A-58135A258282}
 		{E354B136-A4C6-45B7-9F6B-2B0E791D531C} = {8799EBF8-E1EB-430A-998A-58135A258282}
 		{D126EB84-DC73-4742-8618-FBECB7E09515} = {8799EBF8-E1EB-430A-998A-58135A258282}
+		{BD9152C1-CEB7-429D-A844-EDCABA737C92} = {8389E155-4297-4D71-AEFB-6323F607734C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {851CD24B-6C1F-4B37-B5EC-ED43C6BBAA99}
