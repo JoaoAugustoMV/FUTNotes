@@ -23,7 +23,7 @@ namespace FootNotes.MatchManagement.Domain.MatchModels
         public uint? AwayPenaltyScore { get; private set; }
 
 
-        public override bool IsValid(out string msg)
+        public override void ThrowIfInvalid()
         {
             throw new NotImplementedException();
         }
@@ -55,10 +55,7 @@ namespace FootNotes.MatchManagement.Domain.MatchModels
                 AwayPenaltyScore = awayPenaltyScore
             };
 
-            if (!match.IsValid(out string msg))
-            {
-                throw new EntityInvalidException(msg);
-            }
+            match.ThrowIfInvalid();            
 
             return match;
         }

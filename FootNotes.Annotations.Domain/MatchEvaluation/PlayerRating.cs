@@ -9,7 +9,7 @@ namespace FootNotes.Annotations.Domain.MatchEvaluation
     public class PlayerRating : Rating
     {
         public Guid PlayerId { get; private set; }
-        public override bool IsValid(out string msg)
+        public override void ThrowIfInvalid()
         {
             throw new NotImplementedException();
         }

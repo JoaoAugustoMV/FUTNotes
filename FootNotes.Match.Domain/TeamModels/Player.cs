@@ -9,7 +9,7 @@ namespace FootNotes.MatchManagement.Domain.TeamModels
     public class Player : Professional
     {
         public PlayerPosition Position { get; private set; }
-        public override bool IsValid(out string msg)
+        public override void ThrowIfInvalid()
         {
             throw new NotImplementedException();
         }

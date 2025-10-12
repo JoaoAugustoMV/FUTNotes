@@ -12,7 +12,7 @@ namespace FootNotes.Annotations.Domain.AnnotationSession
         public AnnotationSessionType Type { get; private set; }
         public Annotation[]? Annotations { get; private set; }
 
-        public override bool IsValid(out string msg)
+        public override void ThrowIfInvalid()
         {
             throw new NotImplementedException();
         }

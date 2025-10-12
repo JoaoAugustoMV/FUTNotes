@@ -13,7 +13,7 @@ namespace FootNotes.MatchManagement.Domain.CompetitionModels
         public string? Season { get; private set; }
         public CompetitionScope Scope { get; private set; }
         public CompetitionType Type { get; private set; }        
-        public override bool IsValid(out string msg)
+        public override void ThrowIfInvalid()
         {
             throw new NotImplementedException();
         }

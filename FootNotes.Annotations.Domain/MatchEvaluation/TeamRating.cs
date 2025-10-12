@@ -11,7 +11,7 @@ namespace FootNotes.Annotations.Domain.MatchEvaluation
         public Guid TeamId { get; private set; }
         public IEnumerable<PlayerRating>? PlayersEvaluations { get; private set; }
         public CoachRating? CoachEvaluation { get; private set; }
-        public override bool IsValid(out string msg)
+        public override void ThrowIfInvalid()
         {
             throw new NotImplementedException();
         }

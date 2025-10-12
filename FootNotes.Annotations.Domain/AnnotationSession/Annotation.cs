@@ -14,7 +14,7 @@ namespace FootNotes.Annotations.Domain.AnnotationSession
         //public AnnotationType Type { get; private set; }
         public string? Description { get; private set; }
 
-        public override bool IsValid(out string msg)
+        public override void ThrowIfInvalid()
         {
             throw new NotImplementedException();
         }

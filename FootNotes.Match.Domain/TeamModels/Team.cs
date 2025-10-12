@@ -22,14 +22,16 @@ namespace FootNotes.MatchManagement.Domain.TeamModels
             
         }
         
-        public override bool IsValid(out string msg)
+        public override void ThrowIfInvalid()
         {
             StringBuilder errorMsg = new();
             if (string.IsNullOrWhiteSpace(Name))
                 errorMsg.AppendLine("Name is required;");
-            msg = errorMsg.ToString();
+            string msg = errorMsg.ToString();
 
-            return string.IsNullOrEmpty(msg);            
+            if(!string.IsNullOrEmpty(msg)){
+                throw new EntityInvalidException(msg);
+            }
         }
 
         #region Factory Methods
@@ -41,11 +43,8 @@ namespace FootNotes.MatchManagement.Domain.TeamModels
                 HasCreatedManually = true
             };
 
-            if (!team.IsValid(out string msg))
-            {
-                throw new EntityInvalidException(msg);
-            }
-
+            team.ThrowIfInvalid();
+            
             return team;
         }
         #endregion

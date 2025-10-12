@@ -8,7 +8,7 @@ namespace FootNotes.MatchManagement.Domain.TeamModels
 {
     public class Coach : Professional
     {
-        public override bool IsValid(out string msg)
+        public override void ThrowIfInvalid()
         {
             throw new NotImplementedException();
         }
