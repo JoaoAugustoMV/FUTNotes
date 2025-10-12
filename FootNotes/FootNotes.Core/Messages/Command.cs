@@ -7,7 +7,7 @@ using MediatR;
 
 namespace FootNotes.Core.Messages
 {
-    public abstract class Command: Message, IRequest<MessageResponse>
+    public abstract class Command: Message, IRequest<CommandResponse>
     {
         public abstract bool IsValid(out string msg);
     }

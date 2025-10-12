@@ -23,7 +23,7 @@ namespace FootNotes.IAM.Data
 
         }
 
-        private void ConfigureUser(ModelBuilder modelBuilder)
+        private static void ConfigureUser(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>(entity =>
             {

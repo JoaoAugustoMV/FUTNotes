@@ -5,19 +5,22 @@ using System.Text;
 using System.Threading.Tasks;
 using FootNotes.Core.Domain;
 
-namespace FootNotes.Match.Domain
+namespace FootNotes.MatchManagement.Domain.CompetitionModels
 {
-    public class Competition: Entity
+    public class Competition: Entity, IAggregateRoot
     {
-        public string Name { get; private set; }
-        public string? Country { get; private set; }
+        public string Name { get; private set; }        
         public string? Season { get; private set; }
         public CompetitionScope Scope { get; private set; }
-        public CompetitionType Type { get; private set; }
-
+        public CompetitionType Type { get; private set; }        
         public override bool IsValid(out string msg)
         {
             throw new NotImplementedException();
+        }
+
+        public Competition(string name)
+        {
+            Name = name;
         }
     }
 

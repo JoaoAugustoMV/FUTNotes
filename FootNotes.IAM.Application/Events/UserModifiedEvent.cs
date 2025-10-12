@@ -8,17 +8,12 @@ using FootNotes.IAM.Domain;
 
 namespace FootNotes.IAM.Application.Events
 {
-    public class UserModifiedEvent: Event
+    public class UserModifiedEvent(Guid id, string userName, string email, DateTime createdAt, UserType userType) : Event(id)
     {
-        public Guid Id { get; set; }
-        public string Username { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public UserType UserType { get; set; }
-
-        public UserModifiedEvent(Guid Id, EventCRUDType eventType): base(Id, eventType)
-        {                        
-        }
+        public Guid Id { get; private set; } = id;
+        public string Username { get; private set; } = userName;
+        public string Email { get; private set; } = email;        
+        public DateTime CreatedAt { get; private set; } = createdAt;
+        public UserType UserType { get; private set; } = userType;
     }
 }

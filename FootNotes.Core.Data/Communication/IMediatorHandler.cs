@@ -10,7 +10,7 @@ namespace FootNotes.Core.Data.Communication
     public interface IMediatorHandler
     {        
         Task PublishEvent<T>(T evento) where T : Event;
-        Task<MessageResponse> SendCommand<T>(T comando) where T : Command;
+        Task<CommandResponse> SendCommand<T>(T comando) where T : Command;
         //Task PublicarNotificacao<T>(T notificacao) where T : DomainNotification;
         //Task PublicarDomainEvent<T>(T notificacao) where T : DomainEvent;
     }

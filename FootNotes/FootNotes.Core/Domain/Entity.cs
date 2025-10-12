@@ -11,7 +11,7 @@ namespace FootNotes.Core.Domain
     public abstract class Entity
     {
         private List<Event> _events = [];
-        public Guid Id { get; set; }
+        public Guid Id { get; private set; }
 
         public IReadOnlyCollection<Event> Events => _events.AsReadOnly();
 
@@ -20,7 +20,17 @@ namespace FootNotes.Core.Domain
             Id = Uuid.NewSequential();
         }
 
-        public abstract bool IsValid(out string msg);
+        /// <summary>
+        /// Must be implemented in derived classes to validate the entity's state. 
+        /// </summary>
+        /// <remarks>
+        /// If the entity is invalid, it should return false and provide an error message.
+        /// 
+        /// </remarks>
+        /// 
+        /// <param name="msg"></param>
+        /// <returns></returns>
+        public abstract void ThrowIfInvalid();
 
         public void AddEvent(Event evento)
         {

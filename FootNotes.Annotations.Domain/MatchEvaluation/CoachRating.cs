@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FootNotes.Match.Domain
+namespace FootNotes.Annotations.Domain.MatchEvaluation
 {
-    public class Coach : Professional
+    public class CoachRating : Rating
     {
+        public Guid CoachId { get; private set; }
         public override bool IsValid(out string msg)
         {
             throw new NotImplementedException();

@@ -4,22 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FootNotes.Match.Domain
+namespace FootNotes.Annotations.Domain.MatchEvaluation
 {
-    public class Player : Professional
+    public class PlayerRating : Rating
     {
-        public PlayerPosition Position { get; private set; }
+        public Guid PlayerId { get; private set; }
         public override bool IsValid(out string msg)
         {
             throw new NotImplementedException();
         }
-    }
-
-    public enum PlayerPosition
-    {
-        Goalkeeper,
-        Defender,
-        Midfielder,
-        Forward
     }
 }

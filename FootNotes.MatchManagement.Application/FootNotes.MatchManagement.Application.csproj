@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FootNotes.Core.Application\FootNotes.Core.Application.csproj" />
+    <ProjectReference Include="..\FootNotes.Core.Data\FootNotes.Core.Data.csproj" />
+    <ProjectReference Include="..\FootNotes.Match.Domain\FootNotes.MatchManagement.Domain.csproj" />
+    <ProjectReference Include="..\FootNotes\FootNotes.Core\FootNotes.Core.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -23,13 +23,10 @@ namespace FootNotes.IAM.Domain
             CreatedAt = DateTime.UtcNow;
             UserType = userType;
 
-            if (!IsValid(out string msg))
-            {
-                throw new EntityInvalidException(msg);
-            }
+            ThrowIfInvalid();
         }
 
-        public override bool IsValid(out string msg)
+        public override void ThrowIfInvalid()
         {
             StringBuilder errorMsg = new();
 
@@ -44,9 +41,11 @@ namespace FootNotes.IAM.Domain
             if (!Enum.IsDefined(typeof(UserType), UserType))
                 errorMsg.AppendLine("Type is invalid;");
 
-            msg = errorMsg.ToString();
+            string msg = errorMsg.ToString();
 
-            return string.IsNullOrWhiteSpace(msg);
+            if(!string.IsNullOrWhiteSpace(msg))
+                throw new EntityInvalidException(msg);
+            
         }
 
 

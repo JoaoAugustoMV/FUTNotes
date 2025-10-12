@@ -5,14 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using FootNotes.Core.Domain;
 
-namespace FootNotes.Match.Domain
+namespace FootNotes.MatchManagement.Domain.TeamModels
 {
     public abstract class Professional: Entity
     {
         public string Name { get; private set; }
-        public DateTime BirthDate { get; private set; }
+        public DateTime? BirthDate { get; private set; }
 
-        public Guid TeamId { get; private set; }
-        public Team Team { get; private set; }
+        public Guid TeamId { get; private set; }        
     }
 }

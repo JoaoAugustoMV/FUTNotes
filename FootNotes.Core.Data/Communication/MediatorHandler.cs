@@ -11,7 +11,7 @@ namespace FootNotes.Core.Data.Communication
 {
     public class MediatorHandler(IMediator mediator, IEventSourcingRepository eventSourcingRepository) : IMediatorHandler
     {
-        public async Task<MessageResponse> SendCommand<T>(T command) where T : Command
+        public async Task<CommandResponse> SendCommand<T>(T command) where T : Command
         {
             return await mediator.Send(command);            
         }

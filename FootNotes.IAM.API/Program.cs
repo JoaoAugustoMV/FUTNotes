@@ -34,8 +34,8 @@ namespace FootNotes.IAM.API
             // Mediatr, CQRS and EventSourcing
             builder.Services.AddMediatR(c => c.RegisterServicesFromAssembly(typeof(Program).Assembly));
             builder.Services.AddScoped<IMediatorHandler, MediatorHandler>();
-            builder.Services.AddScoped<IRequestHandler<UserRegisterCommand, MessageResponse>, UserCommandHandler>();
-            builder.Services.AddScoped<IRequestHandler<UserUpdateCommand, MessageResponse>, UserCommandHandler>();
+            builder.Services.AddScoped<IRequestHandler<UserRegisterCommand, CommandResponse>, UserCommandHandler>();
+            builder.Services.AddScoped<IRequestHandler<UserUpdateCommand, CommandResponse>, UserCommandHandler>();
 
             builder.Services.AddScoped<IEventSourcingService, EventSourcingService>();
             builder.Services.AddScoped<IEventSourcingRepository, EventSourcingRepository>(); //

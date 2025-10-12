@@ -5,13 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using FootNotes.Core.Domain;
 
-namespace FootNotes.Match.Domain
+namespace FootNotes.Annotations.Domain.AnnotationSession
 {
     public class Annotation : Entity
     {
-
-        public Guid MatchId { get; private set; }
-        public Guid UserId { get; private set; }
         public Guid? PlayerId { get; private set; }
         public DateTime TimeStamp { get; private set; }
         //public AnnotationType Type { get; private set; }

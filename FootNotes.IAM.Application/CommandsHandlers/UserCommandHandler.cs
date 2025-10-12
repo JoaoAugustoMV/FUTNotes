@@ -14,43 +14,43 @@ using MediatR;
 namespace FootNotes.IAM.Application.CommandsHandlers
 {
     public class UserCommandHandler(IUserRepository userRepository) : 
-        IRequestHandler<UserRegisterCommand, MessageResponse>,
-        IRequestHandler<UserUpdateCommand, MessageResponse>
+        IRequestHandler<UserRegisterCommand, CommandResponse>,
+        IRequestHandler<UserUpdateCommand, CommandResponse>
     {
-        public async Task<MessageResponse> Handle(UserRegisterCommand request, CancellationToken cancellationToken)
+        public async Task<CommandResponse> Handle(UserRegisterCommand request, CancellationToken cancellationToken)
         {
+            User user;
             try
             {
                 string passwordHash = PasswordHelper.HashPassword(request.Password);
-                User user = new(request.Username, request.Email, passwordHash, request.UserType);
-                user.AddEvent(new UserModifiedEvent(user.Id, EventCRUDType.Created)
-                {
-                    Id = user.Id,
-                    Username = user.Username,
-                    Email = user.Email,
-                    CreatedAt = user.CreatedAt,
-                    Password = passwordHash,
-                    UserType = user.UserType,
-                });
+                user = new(request.Username, request.Email, passwordHash, request.UserType);
+                user.AddEvent(new UserModifiedEvent(                
+                    user.Id,
+                    user.Username,
+                    user.Email,
+                    user.CreatedAt,                    
+                    user.UserType
+                ));
                     
                 await userRepository.AddAsync(user);
             }
             catch (Exception ex)
             {
-              return new MessageResponse(false, ex.Message);
+              return new CommandResponse(Guid.Empty, false, ex.Message);
             }
             
-            return new MessageResponse(true);
+            return new CommandResponse(user.Id, true);
         }
 
-        public async Task<MessageResponse> Handle(UserUpdateCommand request, CancellationToken cancellationToken)
+        public async Task<CommandResponse> Handle(UserUpdateCommand request, CancellationToken cancellationToken)
         {
+            User? user = null;
             try
             {
-                User? user = await userRepository.GetByEmailAsync(request.Email);
+                user = await userRepository.GetByEmailAsync(request.Email);
 
                 if(user == null)
-                    return new MessageResponse(false, "User not found");
+                    return new CommandResponse(Guid.Empty, false, "User not found");
 
                 string passwordHash = PasswordHelper.HashPassword(request.Password);
 
@@ -58,23 +58,22 @@ namespace FootNotes.IAM.Application.CommandsHandlers
                 user.PasswordHash = passwordHash;
                 user.UserType = request.UserType;
 
-                user.AddEvent(new UserModifiedEvent(user.Id, EventCRUDType.Updated)
-                {                    
-                    Id = user.Id,
-                    Username = user.Username,
-                    Email = user.Email,
-                    Password = passwordHash,
-                    UserType = user.UserType,
-                });
+                user.AddEvent(new UserModifiedEvent(
+                     user.Id,
+                     user.Username,
+                     user.Email,
+                     user.CreatedAt,
+                     user.UserType
+                ));
 
                 await userRepository.UpdateAsync(user);
             }
             catch (Exception ex)
             {
-                return new MessageResponse(false, ex.Message);
+                return new CommandResponse(Guid.Empty, false, ex.Message);
             }
 
-            return new MessageResponse(true);
+            return new CommandResponse(user.Id, true);
         }
     }
 }
