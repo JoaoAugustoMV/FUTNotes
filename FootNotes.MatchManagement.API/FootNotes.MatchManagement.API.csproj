@@ -7,11 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Serilog" Version="4.3.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\FootNotes.Core.Application\FootNotes.Core.Application.csproj" />
+    <ProjectReference Include="..\FootNotes.Crosscuting.EventSourcing\FootNotes.Crosscuting.EventSourcing.csproj" />
+    <ProjectReference Include="..\FootNotes.Crosscuting.Logging\FootNotes.Crosscuting.Logging.csproj" />
+    <ProjectReference Include="..\FootNotes.Match.Data\FootNotes.MatchManagement.Data.csproj" />
     <ProjectReference Include="..\FootNotes.MatchManagement.Application\FootNotes.MatchManagement.Application.csproj" />
   </ItemGroup>
 
