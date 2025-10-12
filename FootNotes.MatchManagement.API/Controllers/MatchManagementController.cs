@@ -11,18 +11,24 @@ namespace FootNotes.MatchManagement.API.Controllers
     public class MatchManagementController(ILogger<MatchManagementController> logger, IMatchService matchService) : ControllerBase
     {       
 
-        [HttpPost(Name = "Create Match Manually")]
-        public async Task<ActionResult<Result<bool>>> CreateMatchManually(CreateMatchManuallyRequest request)
+        [HttpPost("Manual", Name = "Create Match Manually")]
+        public async Task<ActionResult<Result<Guid>>> CreateMatchManually(CreateMatchManuallyRequest request)
         {
             try
             {
-                return Ok(await matchService.CreateMatchManually(request));
+                Result<Guid> result = await matchService.CreateMatchManually(request);
+                logger.LogInformation($"Result: {result}");
+                if (result.Successed)
+                {
+                    return Ok(result);
+                }
+                return BadRequest(result);
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Error registering user");
+                logger.LogError(ex, "Error on create match manualy");
                 return StatusCode(500, "Internal server error");
-            }            
+            }
         }
     }
 }

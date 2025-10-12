@@ -1,4 +1,5 @@
 ﻿using System.Reflection.Metadata;
+using System.Text;
 using FootNotes.Core.Domain;
 
 namespace FootNotes.MatchManagement.Domain.MatchModels
@@ -25,7 +26,17 @@ namespace FootNotes.MatchManagement.Domain.MatchModels
 
         public override void ThrowIfInvalid()
         {
-            throw new NotImplementedException();
+            StringBuilder error = new();
+
+            if (HomeTeamId == AwayTeamId)
+                error.Append("Home Team and Away Team must be different");
+
+            string msg = error.ToString();
+
+            if(msg.Length > 0)
+            {
+                throw new EntityInvalidException(msg);
+            }            
         }
 
         #region Factory Methods

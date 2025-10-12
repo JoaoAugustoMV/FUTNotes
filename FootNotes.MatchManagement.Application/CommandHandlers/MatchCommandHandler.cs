@@ -16,29 +16,29 @@ namespace FootNotes.MatchManagement.Application.CommandHandlers
 {
     public class MatchCommandHandler(IMatchRepository matchRepository) : IRequestHandler<CreateMatchManuallyCommand, CommandResponse>
     {
-        public async Task<CommandResponse> Handle(CreateMatchManuallyCommand request, CancellationToken cancellationToken)
+        public async Task<CommandResponse> Handle(CreateMatchManuallyCommand command, CancellationToken cancellationToken)
         {
 			try
 			{
-				if(request.IsValid(out string error))
+				if(!command.IsValid(out string error))
 				{
 					return new CommandResponse(Guid.Empty, false, error);
                 }
 
 				Match match = Match.CreateManually(
-					request.HomeTeamId,
-					request.AwayTeamId,
-					request.MatchDate,
-					request.Status,
-					request.DecisionType,
-					request.HomeScore,
-					request.AwayScore,
-					request.HomePenaltyScore,
-					request.AwayPenaltyScore
+					command.HomeTeamId,
+					command.AwayTeamId,
+					command.MatchDate,
+					command.Status,
+					command.DecisionType,
+					command.HomeScore,
+					command.AwayScore,
+					command.HomePenaltyScore,
+					command.AwayPenaltyScore
                 );
 
 				match.AddEvent(new CreateMatchManuallyEvent(
-					request.UserId,
+					command.UserId,
                     match.Id,
 					match.HomeTeamId,
 					match.AwayTeamId,

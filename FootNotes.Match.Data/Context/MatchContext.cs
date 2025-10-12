@@ -4,6 +4,7 @@ using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FootNotes.Core.Messages;
 using FootNotes.MatchManagement.Domain.CompetitionModels;
 using FootNotes.MatchManagement.Domain.MatchModels;
 using FootNotes.MatchManagement.Domain.TeamModels;
@@ -17,7 +18,9 @@ namespace FootNotes.MatchManagement.Data.Context
         {
             ConfigureMatch(modelBuilder);
             ConfigureTeam(modelBuilder);
-            ConfigureCompetition(modelBuilder);            
+            ConfigureCompetition(modelBuilder);
+
+            modelBuilder.Ignore<Event>();
         }
 
         public DbSet<Match> Matches { get; set; }
@@ -97,7 +100,13 @@ namespace FootNotes.MatchManagement.Data.Context
                 entity.Property(e => e.CoachId)
                     .HasColumnName("coach_id");
 
+                entity.Property(e => e.HasCreatedManually)
+                    .HasColumnName("has_created_manually");
+
                 entity.Ignore(e => e.Events);
+
+                entity.Ignore(e => e.Players);
+                entity.Ignore(e => e.PlayersId);
             });
         }
 

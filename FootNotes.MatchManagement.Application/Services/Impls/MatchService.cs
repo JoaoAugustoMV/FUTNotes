@@ -12,29 +12,30 @@ using FootNotes.MatchManagement.Application.Events.TeamEvents;
 using FootNotes.MatchManagement.Application.Requests;
 using FootNotes.MatchManagement.Domain.Repository;
 using FootNotes.MatchManagement.Domain.TeamModels;
+using Microsoft.Extensions.Logging;
 
 namespace FootNotes.MatchManagement.Application.Services.Impls
 {
-    public class MatchService(ITeamRepository teamRepository, IMediatorHandler mediatorHandler) : IMatchService
+    public class MatchService(ITeamRepository teamRepository, IMediatorHandler mediatorHandler, ILogger<MatchService> logger) : IMatchService
     {        
 
-        public async Task<Result<bool>> CreateMatchManually(CreateMatchManuallyRequest request)
+        public async Task<Result<Guid>> CreateMatchManually(CreateMatchManuallyRequest request)
         {
-            if (request.IsValid(out string error))
+            if (!request.IsValid(out string error))
             {
-                return Result<bool>.Failure(error);
+                return Result<Guid>.Failure(error);
             }
 
             Result<Guid> homeTeamResponse = await CreateTeamIfNotExists(request.HomeTeamName);
             if (!homeTeamResponse.Successed)
             {
-                return Result<bool>.Failure(homeTeamResponse.Error ?? string.Empty);
+                return Result<Guid>.Failure(homeTeamResponse.Error ?? string.Empty);
             }
 
             Result<Guid> awayTeamResponse = await CreateTeamIfNotExists(request.AwayTeamName);
             if (!awayTeamResponse.Successed)
             {
-                return Result<bool>.Failure(awayTeamResponse.Error ?? string.Empty);
+                return Result<Guid>.Failure(awayTeamResponse.Error ?? string.Empty);
             }
 
             CreateMatchManuallyCommand command = new(
@@ -52,7 +53,7 @@ namespace FootNotes.MatchManagement.Application.Services.Impls
 
             CommandResponse response = await mediatorHandler.SendCommand(command);
 
-            return response.Sucess ? Result<bool>.Success(true) : Result<bool>.Failure(response.Message!);            
+            return response.Sucess ? Result<Guid>.Success(response.AggregateId) : Result<Guid>.Failure(response.Message!);
         }
 
         private async Task<Result<Guid>> CreateTeamIfNotExists(string teamName)
