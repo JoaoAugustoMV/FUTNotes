@@ -14,7 +14,10 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace FootNotes.MatchManagement.Application.CommandHandlers
 {
-    public class MatchCommandHandler(IMatchRepository matchRepository) : IRequestHandler<CreateMatchManuallyCommand, CommandResponse>
+    public class MatchCommandHandler(IMatchRepository matchRepository) : 
+		IRequestHandler<CreateMatchManuallyCommand, CommandResponse>,
+        IRequestHandler<UpdateMatchStatusCommand, CommandResponse>,
+        IRequestHandler<UpdateScoreMatchCommand, CommandResponse>
     {
         public async Task<CommandResponse> Handle(CreateMatchManuallyCommand command, CancellationToken cancellationToken)
         {
@@ -59,6 +62,66 @@ namespace FootNotes.MatchManagement.Application.CommandHandlers
 			{
                 return new CommandResponse(Guid.Empty, false, ex.Message);
             }
+        }
+
+        public async Task<CommandResponse> Handle(UpdateMatchStatusCommand command, CancellationToken cancellationToken)
+        {
+			if (!command.IsValid(out string error))
+			{
+				return new CommandResponse(Guid.Empty, false, error);
+            }
+
+			Match? match = await matchRepository.GetByIdAsync(command.MatchId);
+
+			if (match == null)
+			{				
+				return new CommandResponse(Guid.Empty, false, "Match not found.");
+			}
+
+
+			match.UpdateStatus(command.NewStatus);
+			match.AddEvent(new UpdateMatchStatusEvent(
+				command.MatchId,
+				command.NewStatus
+			));
+			await matchRepository.UpdateAsync(match);
+			return new CommandResponse(match.Id, true);
+        }
+
+        public async Task<CommandResponse> Handle(UpdateScoreMatchCommand command, CancellationToken cancellationToken)
+        {
+            if(!command.IsValid(out string error))
+			{
+				return new CommandResponse(Guid.Empty, false, error);
+            }
+
+			Match? match = await matchRepository.GetByIdAsync(command.MatchId);
+			if(match == null)
+			{
+				return new CommandResponse(Guid.Empty, false, "Match not found.");
+            }
+
+			bool validTeam = false;
+            if (match.HomeTeamId == command.TeamId)
+			{
+				validTeam = true;
+                match.UpdateHomeScore();
+            }else if (match.AwayTeamId == command.TeamId)
+			{
+				validTeam = true;
+				match.UpdateAwayScore();
+            }
+
+			if (!validTeam)
+			{
+                return new CommandResponse(Guid.Empty, false, "The team is not part of the match.");
+			}
+
+			match.AddEvent(new UpdateScoreMatchEvent(match.Id, command.TeamId, match.HomeScore ?? 0, match.AwayScore ?? 0));
+
+			await matchRepository.UpdateAsync(match);
+
+			return new CommandResponse(match.Id, true);
         }
     }
 }

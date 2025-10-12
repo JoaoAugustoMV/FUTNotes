@@ -15,7 +15,9 @@ namespace FootNotes.Core.Data
         Task AddAsync(T entity);
         Task UpdateAsync(T entity);
         Task DeleteAsync(T entity);
-        
-        
+
+        Task<bool> ExistsId(Guid id);
+
+
     }
 }

@@ -11,6 +11,11 @@ namespace FootNotes.MatchManagement.Application.Services
 {
     public interface IMatchService
     {
-        Task<Result<bool>> CreateMatchManually(CreateMatchManuallyRequest command);
+        Task<Result<Guid>> CreateMatchManually(CreateMatchManuallyRequest request);
+
+        Task<Result<bool>> ChangeMatchStatus(UpdateStatusMatchRequest request);
+
+        Task<Result<bool>> UpdateMatchScore(UpdateScoreMatchRequest request);
+
     }
 }

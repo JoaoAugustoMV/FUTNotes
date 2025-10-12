@@ -56,6 +56,36 @@ namespace FootNotes.MatchManagement.Application.Services.Impls
             return response.Sucess ? Result<Guid>.Success(response.AggregateId) : Result<Guid>.Failure(response.Message!);
         }
 
+        public async Task<Result<bool>> ChangeMatchStatus(UpdateStatusMatchRequest request)
+        {
+            if (!request.IsValid(out string error))
+            {
+                return Result<bool>.Failure(error);
+            }
+            
+            UpdateMatchStatusCommand command = new(request.MatchId,request.NewStatus);
+            
+            CommandResponse response = await mediatorHandler.SendCommand(command);
+
+            return response.Sucess ? Result<bool>.Success(true) : Result<bool>.Failure(response.Message!);
+        }
+
+
+        public async Task<Result<bool>> UpdateMatchScore(UpdateScoreMatchRequest request)
+        {
+            if (!request.IsValid(out string error))
+            {
+                return Result<bool>.Failure(error);
+            }
+
+            UpdateScoreMatchCommand command = new(request.MatchId, request.TeamId);
+
+            CommandResponse response = await mediatorHandler.SendCommand(command);
+
+            return response.Sucess ? Result<bool>.Success(true) : Result<bool>.Failure(response.Message!);
+        }
+
+
         private async Task<Result<Guid>> CreateTeamIfNotExists(string teamName)
         {
             Guid teamId = await teamRepository.GetIdByName(teamName);
@@ -75,5 +105,7 @@ namespace FootNotes.MatchManagement.Application.Services.Impls
             return Result<Guid>.Success(teamId);
 
         }
+
+
     }
 }

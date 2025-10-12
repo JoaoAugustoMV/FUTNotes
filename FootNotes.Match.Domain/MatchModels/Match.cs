@@ -39,6 +39,23 @@ namespace FootNotes.MatchManagement.Domain.MatchModels
             }            
         }
 
+        #region Methods
+        public void UpdateStatus(MatchStatus status)
+        {
+            Status = status;            
+        }
+
+        public void UpdateHomeScore()
+        {
+            HomeScore++;
+        }
+
+        public void UpdateAwayScore()
+        {
+            AwayScore++;
+        }
+        #endregion
+
         #region Factory Methods
         public static Match CreateManually(            
             Guid homeTeamId,
@@ -77,9 +94,14 @@ namespace FootNotes.MatchManagement.Domain.MatchModels
     {
         Scheduled,
         FirstHalf,
+        HalfTime,
         SecondHalf,
+        Finished,
+        WaitingForProrrogation,
         FirstHalfProrrogation,
+        HalfTimeProrrogation,
         SecondHalfProrrogation,
+        WaitingForPenalty,
         Penalty,
         Suspended
     }

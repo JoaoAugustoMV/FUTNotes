@@ -61,5 +61,9 @@ namespace FootNotes.Core.Data
             await Commit();
         }
 
+        public async Task<bool> ExistsId(Guid id)
+        {
+            return await _dbContext.Set<T>().AnyAsync(e => e.Id == id);            
+        }
     }
 }

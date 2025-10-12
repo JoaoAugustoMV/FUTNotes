@@ -37,8 +37,12 @@ builder.Services.AddDbContextPool<MatchContext>(options =>
 # region CQRS and EventSourcing
 builder.Services.AddMediatR(c => c.RegisterServicesFromAssembly(typeof(Program).Assembly));
 builder.Services.AddScoped<IMediatorHandler, MediatorHandler>();
+
 builder.Services.AddScoped<IRequestHandler<CreateTeamManuallyCommand, CommandResponse>, TeamCommandHandler>();
 builder.Services.AddScoped<IRequestHandler<CreateMatchManuallyCommand, CommandResponse>, MatchCommandHandler>();
+builder.Services.AddScoped<IRequestHandler<UpdateMatchStatusCommand, CommandResponse>, MatchCommandHandler>();
+builder.Services.AddScoped<IRequestHandler<UpdateScoreMatchCommand, CommandResponse>, MatchCommandHandler>();
+
 builder.Services.AddScoped<IEventSourcingService, EventSourcingService>();
 builder.Services.AddScoped<IEventSourcingRepository, EventSourcingRepository>();
 # endregion

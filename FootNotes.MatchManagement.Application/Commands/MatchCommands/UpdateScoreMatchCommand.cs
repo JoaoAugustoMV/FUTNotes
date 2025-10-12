@@ -7,9 +7,10 @@ using FootNotes.Core.Messages;
 
 namespace FootNotes.MatchManagement.Application.Commands.MatchCommands
 {
-    public class StartMatchCommand(Guid guid) : Command
+    public class UpdateScoreMatchCommand(Guid matchId, Guid teamId) : Command
     {
-        public Guid MatchId { get; private set; } = guid;
+        public Guid MatchId { get; private set; } = matchId;
+        public Guid TeamId { get; private set; } = teamId;
 
         public override bool IsValid(out string msg)
         {
@@ -17,6 +18,9 @@ namespace FootNotes.MatchManagement.Application.Commands.MatchCommands
 
             if (MatchId == Guid.Empty)
                 errorMsg.AppendLine("MatchId is required;");
+
+            if (TeamId == Guid.Empty)
+                errorMsg.AppendLine("TeamId is required;");
 
             msg = errorMsg.ToString();
             return string.IsNullOrWhiteSpace(msg);            

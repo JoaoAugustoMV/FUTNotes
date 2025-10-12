@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FootNotes.Core.Messages;
+using FootNotes.Core.Application;
 using FootNotes.MatchManagement.Domain.MatchModels;
 
 namespace FootNotes.MatchManagement.Application.Requests
@@ -20,7 +20,7 @@ namespace FootNotes.MatchManagement.Application.Requests
         uint? awayScore,
         uint? homePenaltyScore,
         uint? awayPenaltyScore
-            )
+            ): IApiRequest
     {
         public Guid UserId { get; private set; } = userId;
         public string HomeTeamName { get; private set; } = homeTeamName;
