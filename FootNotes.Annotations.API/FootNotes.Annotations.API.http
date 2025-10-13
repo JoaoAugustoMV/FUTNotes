@@ -1,0 +1,6 @@
+@FootNotes.Annotations.API_HostAddress = http://localhost:5120
+
+GET {{FootNotes.Annotations.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

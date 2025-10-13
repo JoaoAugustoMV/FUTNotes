@@ -10,7 +10,7 @@ namespace FootNotes.Annotations.Domain.AnnotationSession
         public DateTime? Ended { get; private set; }
         public AnnotationSessionStatus Status { get; private set; }
         public AnnotationSessionType Type { get; private set; }
-        public Annotation[]? Annotations { get; private set; }
+        public virtual ICollection<Annotation> Annotations { get; private set; } = [];
 
         public override void ThrowIfInvalid()
         {
