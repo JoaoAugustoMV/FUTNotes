@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FootNotes.Annotations.Domain\FootNotes.Annotations.Domain.csproj" />
+    <ProjectReference Include="..\FootNotes.Core.Data\FootNotes.Core.Data.csproj" />
   </ItemGroup>
 
 </Project>
