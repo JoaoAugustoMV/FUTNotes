@@ -12,6 +12,7 @@ using FootNotes.Crosscuting.Logging;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using static FootNotes.Integration.MatchIntegrationService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +35,13 @@ builder.Services.AddDbContextPool<AnnotationsContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("Default"));
 });
 
+#region Grpc Clients
+builder.Services.AddGrpcClient<MatchIntegrationServiceClient>(options =>
+{
+    options.Address = new Uri(builder.Configuration["GrpcClients:MatchIntegrationService"]!);
+});
+#endregion
+
 # region CQRS and EventSourcing
 builder.Services.AddMediatR(c => c.RegisterServicesFromAssembly(typeof(Program).Assembly));
 builder.Services.AddScoped<IMediatorHandler, MediatorHandler>();
@@ -47,7 +55,7 @@ builder.Services.AddScoped<IEventSourcingRepository, EventSourcingRepository>();
 # region Services and Repositories
 builder.Services.AddScoped<IAnnotationSessionRepository, AnnotationSessionRepository>();
 builder.Services.AddScoped<IAnnotationSessionService, AnnotationSessionService>();
-
+builder.Services.AddScoped<IAnnotationMatchService, AnnotationMatchService>();
 #endregion
 
 

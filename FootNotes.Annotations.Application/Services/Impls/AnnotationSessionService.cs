@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO.Pipes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,7 +14,8 @@ using Microsoft.Extensions.Logging;
 namespace FootNotes.Annotations.Application.Services.Impls
 {
     public class AnnotationSessionService(
-        IMediatorHandler mediatorHandler,        
+        IMediatorHandler mediatorHandler,
+        IAnnotationMatchService annotationMatchService,
         ILogger<AnnotationSessionService> logger) : IAnnotationSessionService
     {
         public async Task<Result<Guid>> CreateNewAnnotationSessionAsync(CreateNewAnnotationSessionRequest request)
@@ -22,6 +24,11 @@ namespace FootNotes.Annotations.Application.Services.Impls
             {
                 return Result<Guid>.Failure(msg);
                 
+            }
+
+            if (!await annotationMatchService.ExistsMatchId(request.MatchId))
+            {
+                return Result<Guid>.Failure("The provided MatchId does not exist.");
             }
 
             CreateNewAnnotationSessionCommand command = new()

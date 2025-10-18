@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+	<!--
+  <ItemGroup>
+    <Protobuf Include="Protos\greet.proto" GrpcServices="Server" />
+  </ItemGroup>
+	-->
+
+    <ItemGroup>
+	    <Protobuf Include="..\Protos\match.proto" GrpcServices="Server">
+		    <GrpcNamespace>FootNotes.Integration</GrpcNamespace>
+	    </Protobuf>
+    </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.5.1" />
+    <PackageReference Include="Grpc.AspNetCore" Version="2.67.0" />
+    <PackageReference Include="Serilog" Version="4.3.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FootNotes.Crosscuting.EventSourcing\FootNotes.Crosscuting.EventSourcing.csproj" />
+    <ProjectReference Include="..\FootNotes.Crosscuting.Logging\FootNotes.Crosscuting.Logging.csproj" />
+    <ProjectReference Include="..\FootNotes.Match.Data\FootNotes.MatchManagement.Data.csproj" />
+    <ProjectReference Include="..\FootNotes.Match.Domain\FootNotes.MatchManagement.Domain.csproj" />
+    <ProjectReference Include="..\FootNotes.MatchManagement.Application\FootNotes.MatchManagement.Application.csproj" />
+  </ItemGroup>
+
+</Project>

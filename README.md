@@ -26,6 +26,7 @@ To build a **modular and scalable application**, evolving from a simple MVP into
 - **Kurrent.IO** – Event Sourcing database  
 - **Kafka** (Messaging / Event Streaming)  
 - **JWT Authentication**
+- **gRPC** for internal communication between contexts/microservices  
 
 #### 📱 Frontend (Planned)
 - **Flutter**
@@ -35,7 +36,8 @@ To build a **modular and scalable application**, evolving from a simple MVP into
 ### 🚀 Roadmap (Planned Evolution)
 
 - [x] User registration and authentication  
-- [ ] CRUD for matches and teams  
+- [x] CRUD for matches
+- [ ] Notes creation for matches
 - [ ] Player and match evaluation features  
 - [ ] Kafka integration for domain events  
 - [ ] Event Sourcing implementation  
@@ -71,9 +73,10 @@ Criar uma aplicação modular e escalável, evoluindo de um MVP para um sistema 
 - Kurrent.IO - Banco de dados para o Event Sourcing  
 - Kafka (mensageria/eventos)  
 - JWT para autenticação  
+- **gRPC** para comunicação interna entre contextos/microsserviços
 
 #### Frontend (planejado)
-- Flutter  
+- Flutter
 
 ---
 
@@ -81,8 +84,9 @@ Criar uma aplicação modular e escalável, evoluindo de um MVP para um sistema 
 ### 🚀 Roadmap (Evolução Planejada)
 
 - [x] Cadastro e login de usuário  
-- [ ] CRUD de partidas e times  
-- [ ] Criação de anotações e notas de jogadores  
+- [x] CRUD de partidas
+- [ ] Criação de anotações para partidas e times
+- [ ] Criação de notas de jogadores  
 - [ ] Integração com Kafka para eventos de domínio  
 - [ ] Implementação de Event Sourcing  
 - [ ] Read Models otimizados (CQRS completo)  

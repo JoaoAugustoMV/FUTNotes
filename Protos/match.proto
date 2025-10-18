@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option csharp_namespace = "FootNotes.Integration";
+
+package match;
+
+// The greeting service definition.
+service MatchIntegrationService {
+  rpc MatchExists (MatchExistsRequest) returns (MatchExistsResponse);
+}
+
+
+message MatchExistsRequest {
+  string externalMatchId = 1;
+}
+
+message MatchExistsResponse {
+  bool exists = 1;
+}
