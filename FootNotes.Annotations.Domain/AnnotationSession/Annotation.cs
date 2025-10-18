@@ -15,6 +15,7 @@ namespace FootNotes.Annotations.Domain.AnnotationSession
         public DateTime TimeStamp { get; private set; }
         public AnnotationType Type { get; private set; }
         public string? Description { get; private set; }
+        public int? Minute { get; private set; }
 
         public ICollection<Tag> Tags { get; private set; } = [];
 

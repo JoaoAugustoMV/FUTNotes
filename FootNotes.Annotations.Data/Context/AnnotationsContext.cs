@@ -75,9 +75,11 @@ namespace FootNotes.Annotations.Data.Context
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
                     .IsRequired();
+
                 entity.Property(e => e.AnnotationSessionId)
                     .HasColumnName("annotation_session_id")
                     .IsRequired();
+
                 entity.Property(e => e.TimeStamp)
                     .HasColumnName("time_stamp")
                     .IsRequired();
@@ -88,7 +90,10 @@ namespace FootNotes.Annotations.Data.Context
                     
                 entity.Property(e => e.Description)
                     .HasColumnName("description");
-                
+
+                entity.Property(e => e.Minute)
+                    .HasColumnName("minute");
+
             });
         }
         

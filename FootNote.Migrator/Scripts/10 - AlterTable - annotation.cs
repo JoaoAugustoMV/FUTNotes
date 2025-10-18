@@ -1,0 +1,2 @@
+﻿ALTER TABLE annotations
+ADD COLUMN minute SMALLINT;
