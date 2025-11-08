@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FootNotes.Annotations.Domain.AnnotationSession;
+using FootNotes.Annotations.Domain.AnnotationSessionModels;
 using FootNotes.Annotations.Domain.TagModels;
 using FootNotes.Core.Messages;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +13,9 @@ namespace FootNotes.Annotations.Data.Context
 {
     public class AnnotationsContext(DbContextOptions<AnnotationsContext> options) : DbContext(options)
     {
+        public DbSet<AnnotationSession> AnnotationSessions { get; set; }
+        public DbSet<Annotation> Annotations { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             ConfigureAnnotationSession(modelBuilder);

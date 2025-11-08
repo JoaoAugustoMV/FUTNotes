@@ -13,6 +13,8 @@ namespace FootNotes.Core.Data
         Task<T?> GetByIdAsync(Guid id);
         Task<IEnumerable<T>> ListAsync();
         Task AddAsync(T entity);
+        Task AddRangeAsync(IEnumerable<T> entities);
+        Task AddRangeAsync<TEntityAgreggate>(IEnumerable<TEntityAgreggate> entities) where TEntityAgreggate : Entity;
         Task UpdateAsync(T entity);
         Task DeleteAsync(T entity);
 

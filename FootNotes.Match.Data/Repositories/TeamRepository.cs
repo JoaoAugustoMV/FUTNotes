@@ -13,7 +13,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FootNotes.MatchManagement.Data.Repositories
 {
-    public class TeamRepository(MatchContext dbContext, IMediatorHandler mediatorHandler) : RepositoryBase<Team>(dbContext, mediatorHandler), ITeamRepository
+    public class TeamRepository(MatchContext dbContext, IMediatorHandler mediatorHandler) : 
+        RepositoryBase<Team, MatchContext>(dbContext, mediatorHandler), ITeamRepository
     {
         public async Task<Guid> GetIdByName(string name)
         {

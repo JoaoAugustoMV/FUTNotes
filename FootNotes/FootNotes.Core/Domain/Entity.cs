@@ -24,7 +24,7 @@ namespace FootNotes.Core.Domain
         /// Must be implemented in derived classes to validate the entity's state. 
         /// </summary>
         /// <remarks>
-        /// If the entity is invalid, it should return false and provide an error message.
+        /// If the entity is invalid, it should throw an exception and provide an error message.
         /// 
         /// </remarks>
         /// 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FootNotes.Annotations.Domain.AnnotationSession;
+using FootNotes.Annotations.Domain.AnnotationSessionModels;
 using FootNotes.Core.Application;
 using FootNotes.Core.Messages;
 

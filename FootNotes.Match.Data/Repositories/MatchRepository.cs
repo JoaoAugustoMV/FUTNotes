@@ -11,7 +11,8 @@ using FootNotes.MatchManagement.Domain.Repository;
 
 namespace FootNotes.MatchManagement.Data.Repositories
 {
-    public class MatchRepository(MatchContext _dbContext, IMediatorHandler mediatorHandler) : RepositoryBase<Match>(_dbContext, mediatorHandler), IMatchRepository
+    public class MatchRepository(MatchContext _dbContext, IMediatorHandler mediatorHandler) 
+        : RepositoryBase<Match, MatchContext>(_dbContext, mediatorHandler), IMatchRepository
     {
     }
 }

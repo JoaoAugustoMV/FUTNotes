@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FootNotes.Annotations.Domain.AnnotationSession
+namespace FootNotes.Annotations.Domain.AnnotationSessionModels
 {
     public class AnnotationTag(Guid annotationId, Guid tagId)
     {

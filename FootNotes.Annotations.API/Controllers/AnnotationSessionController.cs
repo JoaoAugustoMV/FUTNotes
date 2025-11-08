@@ -29,5 +29,27 @@ namespace FootNotes.Annotations.API.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
+
+        [HttpPost("AddAnnotation")]
+        public async Task<IActionResult> AddAnnotation(AddAnnotationRequest request)
+        {
+            try
+            {
+                Result<Guid> result = await annotationSessionService.AddAnnotationAsync(request);
+
+                if (result.Successed)
+                {
+                    return Ok(result);
+                }
+
+                return BadRequest(result);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Error on Add annotation");
+                return StatusCode(500, "Internal server error");                
+            }
+            
+        }
     }
 }

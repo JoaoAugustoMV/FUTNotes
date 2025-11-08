@@ -5,11 +5,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FootNotes.Core.Data
 {
-    public class RepositoryBase<T>(DbContext _dbContext, IMediatorHandler mediatorHandler) : IRepositoryBase<T> where T : Entity, IAggregateRoot
+    public class RepositoryBase<TEntity, TDbContext>(TDbContext dbContext, IMediatorHandler mediatorHandler):
+        IRepositoryBase<TEntity> where TEntity : Entity, IAggregateRoot
+        where TDbContext: DbContext
+     
     {
+        protected TDbContext DbContext => dbContext;
         private async Task<bool> Commit()
         {
-            var domainEntities = _dbContext.ChangeTracker
+            var domainEntities = dbContext.ChangeTracker
             .Entries<Entity>()
             .Where(x => x.Entity.Events != null && x.Entity.Events.Any());
 
@@ -20,6 +24,8 @@ namespace FootNotes.Core.Data
             domainEntities.ToList()
                 .ForEach(entity => entity.Entity.ClearEvents());
 
+            bool save = await dbContext.SaveChangesAsync() > 0;
+
             var tasks = domainEvents
                 .Select(async (domainEvent) => {
                     await mediatorHandler.PublishEvent(domainEvent);
@@ -27,43 +33,55 @@ namespace FootNotes.Core.Data
 
             await Task.WhenAll(tasks);
 
-            return await _dbContext.SaveChangesAsync() > 0;
+            return save;
         }
 
-        public async Task AddAsync(T entity)
+        public async Task AddAsync(TEntity entity)
         {
-            await _dbContext.AddAsync(entity);
+            await dbContext.AddAsync(entity);
 
             await Commit();
         }
 
-        public async Task DeleteAsync(T entity)
+        public async Task AddRangeAsync(IEnumerable<TEntity> entities)
         {
-            _dbContext.Remove(entity);
+            await dbContext.AddRangeAsync(entities);
+            await Commit();
+        }
+
+        public async Task AddRangeAsync<T>(IEnumerable<T> entities) where T : Entity
+        {
+            await dbContext.AddRangeAsync(entities);
+            await Commit();
+        }
+
+        public async Task DeleteAsync(TEntity entity)
+        {
+            dbContext.Remove(entity);
 
             await Commit();
         }      
 
-        public async Task<T?> GetByIdAsync(Guid id)
+        public async Task<TEntity?> GetByIdAsync(Guid id)
         {            
-            return await _dbContext.Set<T>().FindAsync(id);
+            return await dbContext.Set<TEntity>().FindAsync(id);
         }
 
-        public async Task<IEnumerable<T>> ListAsync()
+        public async Task<IEnumerable<TEntity>> ListAsync()
         {
-            return await _dbContext.Set<T>().ToListAsync();            
+            return await dbContext.Set<TEntity>().ToListAsync();            
         }
 
-        public async Task UpdateAsync(T entity)
+        public async Task UpdateAsync(TEntity entity)
         {
-            _dbContext.Update(entity);
+            dbContext.Update(entity);
 
             await Commit();
         }
 
         public async Task<bool> ExistsId(Guid id)
         {
-            return await _dbContext.Set<T>().AnyAsync(e => e.Id == id);            
+            return await dbContext.Set<TEntity>().AnyAsync(e => e.Id == id);            
         }
     }
 }

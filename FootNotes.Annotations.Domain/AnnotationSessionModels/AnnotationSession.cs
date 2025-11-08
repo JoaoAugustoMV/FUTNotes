@@ -1,7 +1,8 @@
-﻿using System.Text;
+﻿using System.IO.Pipes;
+using System.Text;
 using FootNotes.Core.Domain;
 
-namespace FootNotes.Annotations.Domain.AnnotationSession
+namespace FootNotes.Annotations.Domain.AnnotationSessionModels
 {
     public class AnnotationSession : Entity, IAggregateRoot
     {
@@ -40,6 +41,46 @@ namespace FootNotes.Annotations.Domain.AnnotationSession
             
         }
 
+        #region Domain Methods
+        public void EndSession()
+        {
+            if (Status == AnnotationSessionStatus.Completed)
+            {
+                throw new InvalidOperationException("Annotation session is already completed.");
+            }
+            Ended = DateTime.UtcNow;
+            Status = AnnotationSessionStatus.Completed;
+        }
+
+        public void PauseSession()
+        {
+            if (Status != AnnotationSessionStatus.Active)
+            {
+                throw new InvalidOperationException("Only active sessions can be paused.");
+            }
+            Status = AnnotationSessionStatus.Paused;
+        }
+
+        public void ResumeSession()
+        {
+            if (Status != AnnotationSessionStatus.Paused)
+            {
+                throw new InvalidOperationException("Only paused sessions can be resumed.");
+            }
+            Status = AnnotationSessionStatus.Active;            
+        }
+
+        public void AddAnnotation(string description, int? minute,AnnotationType type)
+        {
+            if (Status != AnnotationSessionStatus.Active)
+            {
+                throw new InvalidOperationException("Annotations can only be added to active sessions.");
+            }
+
+            Annotations.Add(CreateNewAnnotation(description, minute, type));
+        }
+        #endregion
+
         #region Factory Methods
         public static AnnotationSession CreateNew(Guid userId, Guid matchId, AnnotationSessionType sessionType)
         {
@@ -55,6 +96,16 @@ namespace FootNotes.Annotations.Domain.AnnotationSession
             session.ThrowIfInvalid();
 
             return session;
+        }
+
+        private Annotation CreateNewAnnotation(string description, int? minute, AnnotationType type)
+        {
+            Annotation annotation = new(Id, description, minute, type);
+            
+            annotation.ThrowIfInvalid();
+
+            return annotation;
+            
         }
         #endregion
     }

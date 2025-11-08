@@ -4,6 +4,7 @@ using FootNotes.Annotations.Application.Services;
 using FootNotes.Annotations.Application.Services.Impls;
 using FootNotes.Annotations.Data.Context;
 using FootNotes.Annotations.Data.Repositories;
+using FootNotes.Annotations.Domain.Repositories;
 using FootNotes.Core.Data.Communication;
 using FootNotes.Core.Data.EventSourcing;
 using FootNotes.Core.Messages;
@@ -47,6 +48,7 @@ builder.Services.AddMediatR(c => c.RegisterServicesFromAssembly(typeof(Program).
 builder.Services.AddScoped<IMediatorHandler, MediatorHandler>();
 
 builder.Services.AddScoped<IRequestHandler<CreateNewAnnotationSessionCommand, CommandResponse>, AnnotationSessionCommandHandler>();
+builder.Services.AddScoped<IRequestHandler<AddAnnotationCommand, CommandResponse>, AnnotationSessionCommandHandler>();
 
 builder.Services.AddScoped<IEventSourcingService, EventSourcingService>();
 builder.Services.AddScoped<IEventSourcingRepository, EventSourcingRepository>();

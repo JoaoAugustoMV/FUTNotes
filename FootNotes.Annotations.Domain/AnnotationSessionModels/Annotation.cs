@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using FootNotes.Annotations.Domain.TagModels;
 using FootNotes.Core.Domain;
 
-namespace FootNotes.Annotations.Domain.AnnotationSession
+namespace FootNotes.Annotations.Domain.AnnotationSessionModels
 {
     public class Annotation : Entity
     {
@@ -19,9 +19,35 @@ namespace FootNotes.Annotations.Domain.AnnotationSession
 
         public ICollection<Tag> Tags { get; private set; } = [];
 
+        internal Annotation(Guid annotationSessionId, string description, int? minute, AnnotationType type)
+        {
+            AnnotationSessionId = annotationSessionId;
+            Description = description;
+            Minute = minute;
+            Type = type;
+            TimeStamp = DateTime.UtcNow;
+
+        }
+
         public override void ThrowIfInvalid()
         {
-            throw new NotImplementedException();
+            StringBuilder error = new();
+
+            if(AnnotationSessionId == Guid.Empty)
+            {
+                error.Append("SessionId is required");
+            }
+
+            if(Minute.HasValue && Minute < 0)
+            {
+                error.AppendLine("Minute must be positive");
+            }
+
+            string msgError = error.ToString();
+            if (!string.IsNullOrEmpty(msgError))
+            {
+                throw new EntityInvalidException(msgError);
+            }
         }
     }
 

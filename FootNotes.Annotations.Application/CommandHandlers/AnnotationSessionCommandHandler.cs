@@ -5,15 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 using FootNotes.Annotations.Application.Commands.AnnotationSessionCommands;
 using FootNotes.Annotations.Application.Events.AnnotationSessionEvents;
-using FootNotes.Annotations.Data.Repositories;
-using FootNotes.Annotations.Domain.AnnotationSession;
+using FootNotes.Annotations.Domain.AnnotationSessionModels;
+using FootNotes.Annotations.Domain.Repositories;
+using FootNotes.Core.Application;
 using FootNotes.Core.Messages;
 using MediatR;
 
 namespace FootNotes.Annotations.Application.CommandHandlers
 {
     public class AnnotationSessionCommandHandler(IAnnotationSessionRepository annotationSessionRepository) : 
-        IRequestHandler<CreateNewAnnotationSessionCommand, CommandResponse>
+        IRequestHandler<CreateNewAnnotationSessionCommand, CommandResponse>,
+        IRequestHandler<AddAnnotationCommand, CommandResponse>
     {
         public async Task<CommandResponse> Handle(CreateNewAnnotationSessionCommand request, CancellationToken cancellationToken)
         {
@@ -47,6 +49,28 @@ namespace FootNotes.Annotations.Application.CommandHandlers
             {
                 return new CommandResponse(Guid.Empty, false, ex.Message);                
             }            
+        }
+
+        public async Task<CommandResponse> Handle(AddAnnotationCommand command, CancellationToken cancellationToken)
+        {
+            if (!command.IsValid(out string error))
+            {
+                return new CommandResponse(Guid.Empty, false, error);
+            }
+
+            AnnotationSession? session = await annotationSessionRepository.GetByIdAsync(command.AnnotationSessionId);
+            if (session == null)
+            {
+                return new CommandResponse(Guid.Empty, false, "The provided AnnotationSessionId does not exist.");                
+            }            
+
+            session.AddAnnotation(command.Description, command.Minute, command.Type);
+
+            session.AddEvent(new AddAnnotationEvent(session.Id, command.Description, command.Minute, command.Type));
+
+            await annotationSessionRepository.AddRangeAsync(session.Annotations);
+
+            return new CommandResponse(session.Id, true);
         }
     }
 }
