@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FootNotes.IAM.Data
 {
-    public class UserRepository(IAMContext dbContext, IMediatorHandler mediator) : RepositoryBase<User>(dbContext, mediator), IUserRepository
+    public class UserRepository(IAMContext dbContext, IMediatorHandler mediator) : RepositoryBase<User, IAMContext>(dbContext, mediator), IUserRepository
     {
         public async Task<User?> GetByEmailAsync(string email)
         {
