@@ -1,0 +1,31 @@
+services:
+  loki:
+    image: grafana/loki:latest
+    ports:
+      - "3100:3100"
+    # command: -config.file=/etc/loki/config/config.yaml
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+
+  kurrent:
+    image: docker.kurrent.io/kurrent-latest/kurrentdb
+    ports:
+      - 2113:2113
+    environment:
+      - KURRENTDB_INSECURE=true
+      - KURRENTDB_ENABLE_ATOM_PUB_OVER_HTTP=true
+      - KURRENTDB_RUN_PROJECTIONS=All
+#     volumes:
+#       - type: volume
+#         source: kurrentdb-volume-data
+#         target: /var/lib/kurrentdb
+#       - type: volume
+#         source: kurrentdb-volume-logs
+#         target: /var/log/kurrentdb
+
+# volumes:
+#   kurrentdb-volume-data:
+#   kurrentdb-volume-logs:
+

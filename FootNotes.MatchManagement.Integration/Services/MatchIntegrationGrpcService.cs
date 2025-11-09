@@ -1,12 +1,13 @@
-using FootNotes.MatchManagement.Integration;
-using Grpc.Core;
 using FootNotes.Integration;
 using FootNotes.MatchManagement.Domain.Repository;
+using FootNotes.MatchManagement.Integration;
+using Grpc.Core;
+using Microsoft.Extensions.Logging;
 
 
 namespace FootNotes.MatchManagement.Integration.Services
 {
-    public class MatchIntegrationGrpcService(IMatchRepository matchRepository) : MatchIntegrationService.MatchIntegrationServiceBase
+    public class MatchIntegrationGrpcService(ILogger<MatchIntegrationGrpcService> logger, IMatchRepository matchRepository) : MatchIntegrationService.MatchIntegrationServiceBase
     {
         public override async Task<MatchExistsResponse> MatchExists(MatchExistsRequest request, ServerCallContext context)
         {
