@@ -33,8 +33,8 @@ namespace FootNotes.Annotations.Application.Services.Impls
                 Description = request.Description,
                 Minute = request.Minute,
                 Type = request.Type,
-            };
-
+            };            
+            
             CommandResponse response = await mediatorHandler.SendCommand(command);
 
             if (response.Sucess)

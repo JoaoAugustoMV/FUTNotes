@@ -12,6 +12,7 @@ namespace FootNotes.Core.Data
         //IUnitOfWork UnitOfWork { get; }
         Task<T?> GetByIdAsync(Guid id);
         Task<IEnumerable<T>> ListAsync();
+        IQueryable<T> GetAll();
         Task AddAsync(T entity);
         Task AddRangeAsync(IEnumerable<T> entities);
         Task AddRangeAsync<TEntityAgreggate>(IEnumerable<TEntityAgreggate> entities) where TEntityAgreggate : Entity;

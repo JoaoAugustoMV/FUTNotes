@@ -28,9 +28,4 @@
     <ProjectReference Include="..\FootNotes.Core.Data\FootNotes.Core.Data.csproj" />
   </ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Queries\QueriesHandlers\" />
-	  <Folder Include="Queries\ViewModels\" />
-	</ItemGroup>
-
 </Project>

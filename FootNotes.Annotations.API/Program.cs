@@ -1,5 +1,8 @@
 using FootNotes.Annotations.Application.CommandHandlers;
 using FootNotes.Annotations.Application.Commands.AnnotationSessionCommands;
+using FootNotes.Annotations.Application.QueryStack.Queries;
+using FootNotes.Annotations.Application.QueryStack.QueriesHandlers;
+using FootNotes.Annotations.Application.QueryStack.ViewModels;
 using FootNotes.Annotations.Application.Services;
 using FootNotes.Annotations.Application.Services.Impls;
 using FootNotes.Annotations.Data.Context;
@@ -47,6 +50,10 @@ builder.Services.AddGrpcClient<MatchIntegrationServiceClient>(options =>
 builder.Services.AddMediatR(c => c.RegisterServicesFromAssembly(typeof(Program).Assembly));
 builder.Services.AddScoped<IMediatorHandler, MediatorHandler>();
 
+// Query Handlers
+builder.Services.AddScoped<IRequestHandler<GetAnnotationSessionByIdQuery, AnnotationSessionViewModel>, AnnotationSessionQueryHandler>();
+
+// Command Handlers
 builder.Services.AddScoped<IRequestHandler<CreateNewAnnotationSessionCommand, CommandResponse>, AnnotationSessionCommandHandler>();
 builder.Services.AddScoped<IRequestHandler<AddAnnotationCommand, CommandResponse>, AnnotationSessionCommandHandler>();
 

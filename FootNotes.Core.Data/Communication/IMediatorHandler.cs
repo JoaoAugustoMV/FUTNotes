@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FootNotes.Core.Messages;
+using MediatR;
 
 namespace FootNotes.Core.Data.Communication
 {
     public interface IMediatorHandler
-    {        
+    {
+        Task<TResponse> Query<TResponse>(Query<TResponse> query);
         Task PublishEvent<T>(T evento) where T : Event;
         Task<CommandResponse> SendCommand<T>(T comando) where T : Command;
         //Task PublicarNotificacao<T>(T notificacao) where T : DomainNotification;

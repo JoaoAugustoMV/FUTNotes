@@ -67,6 +67,11 @@ namespace FootNotes.Core.Data
             return await dbContext.Set<TEntity>().FindAsync(id);
         }
 
+        public IQueryable<TEntity> GetAll()
+        {
+            return dbContext.Set<TEntity>();
+        }
+
         public async Task<IEnumerable<TEntity>> ListAsync()
         {
             return await dbContext.Set<TEntity>().ToListAsync();            
