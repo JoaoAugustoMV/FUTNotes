@@ -24,9 +24,10 @@ To build a **modular and scalable application**, evolving from a simple MVP into
 - **PostgreSQL**  
 - **CQRS + Mediator Pattern (MediatR)**  
 - **Kurrent.IO** – Event Sourcing database  
-- **Kafka** (Messaging / Event Streaming)  
+- **Kafka** (Messaging / Event Streaming)(planned))  
 - **JWT Authentication**
-- **gRPC** for internal communication between contexts/microservices  
+- **gRPC** for internal communication between contexts/microservices
+- **Grafana** for monitoring
 
 #### 📱 Frontend (Planned)
 - **Flutter**
@@ -37,7 +38,7 @@ To build a **modular and scalable application**, evolving from a simple MVP into
 
 - [x] User registration and authentication  
 - [x] CRUD for matches
-- [ ] Notes creation for matches
+- [x] Notes creation for matches
 - [ ] Player and match evaluation features  
 - [ ] Kafka integration for domain events  
 - [ ] Event Sourcing implementation  
@@ -71,9 +72,10 @@ Criar uma aplicação modular e escalável, evoluindo de um MVP para um sistema 
 - PostgreSQL  
 - CQRS + Mediator Pattern(Mediatr)  
 - Kurrent.IO - Banco de dados para o Event Sourcing  
-- Kafka (mensageria/eventos)  
+- Kafka (mensageria/eventos)
 - JWT para autenticação  
-- **gRPC** para comunicação interna entre contextos/microsserviços
+- gRPC para comunicação interna entre contextos/microsserviços
+- Grafana para monitoramento
 
 #### Frontend (planejado)
 - Flutter
@@ -85,7 +87,7 @@ Criar uma aplicação modular e escalável, evoluindo de um MVP para um sistema 
 
 - [x] Cadastro e login de usuário  
 - [x] CRUD de partidas
-- [ ] Criação de anotações para partidas e times
+- [x] Criação de anotações para partidas e times
 - [ ] Criação de notas de jogadores  
 - [ ] Integração com Kafka para eventos de domínio  
 - [ ] Implementação de Event Sourcing  
