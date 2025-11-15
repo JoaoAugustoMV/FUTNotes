@@ -3,6 +3,7 @@ using FootNotes.Core.Data.Communication;
 using FootNotes.Core.Data.EventSourcing;
 using FootNotes.Core.Messages;
 using FootNotes.Crosscuting.EventSourcing;
+using FootNotes.Crosscuting.Logging;
 using FootNotes.IAM.Application.Commands;
 using FootNotes.IAM.Application.CommandsHandlers;
 using FootNotes.IAM.Application.Interfaces;
@@ -16,6 +17,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
 
 namespace FootNotes.IAM.API
 {
@@ -24,7 +26,12 @@ namespace FootNotes.IAM.API
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            
+
+            #region Logging
+            LoggingConfiguration.Configure(builder.Configuration);
+            builder.Host.UseSerilog();
+            #endregion
+
             // Add services to the container.
             builder.Services.AddDbContextPool<IAMContext>(options =>
             {
