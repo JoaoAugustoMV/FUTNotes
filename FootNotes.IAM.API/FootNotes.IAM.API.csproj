@@ -12,6 +12,9 @@
     <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.5.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.20" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.21" />
+    <PackageReference Include="Serilog" Version="4.3.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="8.0.3" />
+    <PackageReference Include="Serilog.Sinks.Grafana.Loki" Version="8.3.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
 	  <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.21">
 		  <PrivateAssets>all</PrivateAssets>
@@ -22,9 +25,15 @@
   <ItemGroup>
     <ProjectReference Include="..\FootNotes.Core.Application\FootNotes.Core.Application.csproj" />
     <ProjectReference Include="..\FootNotes.Crosscuting.EventSourcing\FootNotes.Crosscuting.EventSourcing.csproj" />
+    <ProjectReference Include="..\FootNotes.Crosscuting.Logging\FootNotes.Crosscuting.Logging.csproj" />
     <ProjectReference Include="..\FootNotes.IAM.Application\FootNotes.IAM.Application.csproj" />
     <ProjectReference Include="..\FootNotes.IAM.Data\FootNotes.IAM.Data.csproj" />
     <ProjectReference Include="..\FootNotes\FootNotes.Core\FootNotes.Core.csproj" />
   </ItemGroup>
+
+<ItemGroup>
+	<None Update="appsettings.json" CopyToPublishDirectory="Never" />
+	<None Update="appsettings.Development.json" CopyToPublishDirectory="Never" />
+</ItemGroup>
 
 </Project>

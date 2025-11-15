@@ -24,4 +24,9 @@
     <ProjectReference Include="..\FootNotes.Crosscuting.Logging\FootNotes.Crosscuting.Logging.csproj" />
   </ItemGroup>
 
+	<ItemGroup>
+		<None Update="appsettings.json" CopyToPublishDirectory="Never" />
+		<None Update="appsettings.Development.json" CopyToPublishDirectory="Never" />
+	</ItemGroup>
+
 </Project>
