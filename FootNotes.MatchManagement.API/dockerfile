@@ -1,0 +1,21 @@
+# Stage 1: Build the application
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+
+COPY ["FootNotes.MatchManagement.API/FootNotes.MatchManagement.API.csproj", "FootNotes.MatchManagement.API/"]
+RUN dotnet restore "FootNotes.MatchManagement.API/FootNotes.MatchManagement.API.csproj"
+COPY . .
+
+WORKDIR /src/FootNotes.MatchManagement.API
+RUN dotnet build "FootNotes.MatchManagement.API.csproj" -c Release -o /app/build
+
+# Stage 2: Publish the application
+FROM build AS publish
+RUN dotnet publish "FootNotes.MatchManagement.API.csproj" -c Release -o /app/publish /p:UseAppHost=false
+
+# Stage 3: Create the final runtime image
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
+WORKDIR /app
+EXPOSE 80
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "FootNotes.MatchManagement.API.dll"]
