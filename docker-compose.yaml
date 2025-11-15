@@ -1,4 +1,174 @@
 services:
+  foot-notes-iam-api:
+    image: foot-notes-iam-api
+    ports:
+      - "3200:8080"
+    environment:
+      # Logging
+      Logging__LogLevel__Default: "Information"
+      Logging__LogLevel__Microsoft.AspNetCore: "Warning"
+
+      # AllowedHosts
+      AllowedHosts: "*"
+
+      # Connection String
+      ConnectionStrings__Default: ""
+
+      # JWT
+      Jwt__Key: ""
+      Jwt__Issuer: "FootNotesAPI"
+      Jwt__Audience: "FootNotesClient"
+      Jwt__ExpireMinutes: "60"
+
+      # Event Store / Kurrent
+      KurrentConnString: ""
+
+      # Serilog
+      Serilog__Using__0: "Serilog.Sinks.Console"
+      Serilog__Using__1: "Serilog.Sinks.Grafana.Loki"
+      Serilog__MinimumLevel__Default: "Information"
+      Serilog__MinimumLevel__Override__Microsoft: "Warning"
+      Serilog__MinimumLevel__Override__System: "Warning"
+      Serilog__MinimumLevel__Override__Microsoft.AspNetCore.Hosting: "Warning"
+      Serilog__MinimumLevel__Override__Microsoft.AspNetCore.Routing: "Warning"
+      Serilog__Enrich__0: "FromLogContext"
+      Serilog__Enrich__1: "WithMachineName"
+      Serilog__Enrich__2: "WithThreadId"
+
+      # Grafana / Loki
+      Grafana__URI: "http://loki:3100"
+      Grafana__LabelKey: "service_name"
+      Grafana__LabelValue: "FootNotesAPI.IAM.API"
+
+  foot-notes-match-api:
+      image: foot-notes-match-api
+      ports:
+        - "3300:8080"
+      environment:
+        # Logging
+        Logging__LogLevel__Default: "Information"
+        Logging__LogLevel__Microsoft.AspNetCore: "Warning"
+
+        # AllowedHosts
+        AllowedHosts: "*"
+
+        # Connection String
+        ConnectionStrings__Default: ""
+
+        # JWT
+        Jwt__Key: ""
+        Jwt__Issuer: "FootNotesAPI"
+        Jwt__Audience: "FootNotesClient"
+        Jwt__ExpireMinutes: "60"
+
+        # Event Store / Kurrent
+        KurrentConnString: ""
+
+        # Serilog
+        Serilog__Using__0: "Serilog.Sinks.Console"
+        Serilog__Using__1: "Serilog.Sinks.Grafana.Loki"
+        Serilog__MinimumLevel__Default: "Information"
+        Serilog__MinimumLevel__Override__Microsoft: "Warning"
+        Serilog__MinimumLevel__Override__System: "Warning"
+        Serilog__MinimumLevel__Override__Microsoft.AspNetCore.Hosting: "Warning"
+        Serilog__MinimumLevel__Override__Microsoft.AspNetCore.Routing: "Warning"
+        Serilog__Enrich__0: "FromLogContext"
+        Serilog__Enrich__1: "WithMachineName"
+        Serilog__Enrich__2: "WithThreadId"
+
+        # Grafana / Loki
+        Grafana__URI: "http://loki:3100"
+        Grafana__LabelKey: "service_name"
+        Grafana__LabelValue: "FootNotesAPI.Match.API"
+
+        # gRPC
+        GrpcClients__MatchIntegrationService: "http://foot-notes-match-rpc:8080"
+
+  foot-notes-annotation-api:
+      image: foot-notes-annotation-api
+      ports:
+        - "3500:8080"
+      environment:
+        # Logging
+        Logging__LogLevel__Default: "Information"
+        Logging__LogLevel__Microsoft.AspNetCore: "Warning"
+
+        # AllowedHosts
+        AllowedHosts: "*"
+
+        # Connection String
+        ConnectionStrings__Default: ""
+
+        # JWT
+        Jwt__Key: ""
+        Jwt__Issuer: "FootNotesAPI"
+        Jwt__Audience: "FootNotesClient"
+        Jwt__ExpireMinutes: "60"
+
+        # Event Store / Kurrent
+        KurrentConnString: ""
+
+        # Serilog
+        Serilog__Using__0: "Serilog.Sinks.Console"
+        Serilog__Using__1: "Serilog.Sinks.Grafana.Loki"
+        Serilog__MinimumLevel__Default: "Information"
+        Serilog__MinimumLevel__Override__Microsoft: "Warning"
+        Serilog__MinimumLevel__Override__System: "Warning"
+        Serilog__MinimumLevel__Override__Microsoft.AspNetCore.Hosting: "Warning"
+        Serilog__MinimumLevel__Override__Microsoft.AspNetCore.Routing: "Warning"
+        Serilog__Enrich__0: "FromLogContext"
+        Serilog__Enrich__1: "WithMachineName"
+        Serilog__Enrich__2: "WithThreadId"
+
+        # Grafana / Loki
+        Grafana__URI: "http://loki:3100"
+        Grafana__LabelKey: "service_name"
+        Grafana__LabelValue: "FootNotesAPI.Annotations.API"
+
+        # gRPC
+        GrpcClients__MatchIntegrationService: "http://foot-notes-match-rpc:8080"
+
+  foot-notes-match-rpc:
+      image: foot-notes-match-rpc
+      ports:
+        - "3400:8080"
+      environment:
+        # Logging
+        Logging__LogLevel__Default: "Information"
+        Logging__LogLevel__Microsoft.AspNetCore: "Warning"
+
+        # AllowedHosts
+        AllowedHosts: "*"
+
+        # Connection String
+        ConnectionStrings__Default: ""
+
+        # JWT
+        Jwt__Key: ""
+        Jwt__Issuer: "FootNotesAPI"
+        Jwt__Audience: "FootNotesClient"
+        Jwt__ExpireMinutes: "60"
+
+        # Event Store / Kurrent
+        KurrentConnString: ""
+
+        # Serilog
+        Serilog__Using__0: "Serilog.Sinks.Console"
+        Serilog__Using__1: "Serilog.Sinks.Grafana.Loki"
+        Serilog__MinimumLevel__Default: "Information"
+        Serilog__MinimumLevel__Override__Microsoft: "Warning"
+        Serilog__MinimumLevel__Override__System: "Warning"
+        Serilog__MinimumLevel__Override__Microsoft.AspNetCore.Hosting: "Warning"
+        Serilog__MinimumLevel__Override__Microsoft.AspNetCore.Routing: "Warning"
+        Serilog__Enrich__0: "FromLogContext"
+        Serilog__Enrich__1: "WithMachineName"
+        Serilog__Enrich__2: "WithThreadId"
+
+        # Grafana / Loki
+        Grafana__URI: "http://loki:3100"
+        Grafana__LabelKey: "service_name"
+        Grafana__LabelValue: "FootNotesAPI.Match.Integration"
+
   loki:
     image: grafana/loki:latest
     ports:
@@ -8,6 +178,13 @@ services:
     image: grafana/grafana:latest
     ports:
       - "3000:3000"
+    # volumes:
+      # - ./grafana/datasources:/etc/grafana/provisioning/datasources
+    environment:
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+    depends_on:
+    - loki
 
   kurrent:
     image: docker.kurrent.io/kurrent-latest/kurrentdb
