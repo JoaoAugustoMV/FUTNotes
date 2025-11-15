@@ -19,6 +19,7 @@ namespace FootNotes.IAM.API.Controllers
 
                 if(result.Successed)
                 {
+                    logger.LogInformation("User {userRegisterCommand.Username} registered successfully.", userRegisterCommand.Username);
                     return Ok(result);
                 }
 
@@ -41,6 +42,7 @@ namespace FootNotes.IAM.API.Controllers
 
                 if (result.Successed)
                 {
+                    logger.LogInformation("User {userUpdateCommand.Username} updated successfully.", userUpdateCommand.Username);
                     return Ok(result);
                 }
 

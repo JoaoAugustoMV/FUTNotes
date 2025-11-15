@@ -11,7 +11,7 @@ namespace FootNotes.IAM.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class AuthController(IUserQueries userQueries, JwtService jwtService) : ControllerBase
+    public class AuthController(ILogger<AuthController> logger, IUserQueries userQueries, JwtService jwtService) : ControllerBase
     {
         [HttpPost("login")]
         public async Task<ActionResult<Result<string>>> Login(UserLoginRequest request)
@@ -22,6 +22,7 @@ namespace FootNotes.IAM.API.Controllers
             {
                 if (PasswordHelper.VerifyPassword(request.Password, user.Password))
                 {
+                    logger.LogInformation($"User {user.Username} logged in successfully.");
                     string token = jwtService.GenerateToken(user.Username);
 
                     return Ok(Result<string>.Success(token));
