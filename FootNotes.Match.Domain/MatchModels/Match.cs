@@ -87,6 +87,29 @@ namespace FootNotes.MatchManagement.Domain.MatchModels
 
             return match;
         }
+
+        public static Match CreateUpcoming(
+            Guid homeTeamId,
+            Guid awayTeamId,
+            Guid competitionId,
+            DateTime matchDate
+    )
+        {
+            Match match = new()
+            {
+                HomeTeamId = homeTeamId,
+                AwayTeamId = awayTeamId,
+                MatchDate = matchDate,
+                Status = MatchStatus.Scheduled,
+                HomeScore = 0,
+                AwayScore = 0,
+                CompetitionId = competitionId,
+            };
+
+            match.ThrowIfInvalid();
+
+            return match;
+        }
         #endregion
     }
 

@@ -7,17 +7,19 @@ using FootNotes.Core.Messages;
 using FootNotes.MatchManagement.Application.Commands;
 using FootNotes.MatchManagement.Application.Commands.MatchCommands;
 using FootNotes.MatchManagement.Application.Events.MatchEvents;
+using FootNotes.MatchManagement.Application.Services;
 using FootNotes.MatchManagement.Domain.MatchModels;
 using FootNotes.MatchManagement.Domain.Repository;
+using FootNotes.MatchManagement.Domain.TeamModels;
 using MediatR;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace FootNotes.MatchManagement.Application.CommandHandlers
 {
-    public class MatchCommandHandler(IMatchRepository matchRepository) : 
+    public class MatchCommandHandler(IMatchRepository matchRepository, ITeamRepository teamRepository, ITeamService teamService) : 
 		IRequestHandler<CreateMatchManuallyCommand, CommandResponse>,
         IRequestHandler<UpdateMatchStatusCommand, CommandResponse>,
-        IRequestHandler<UpdateScoreMatchCommand, CommandResponse>
+        IRequestHandler<UpdateScoreMatchCommand, CommandResponse>,
+        IRequestHandler<InsertUpcomingMatchCommand, CommandResponse>
     {
         public async Task<CommandResponse> Handle(CreateMatchManuallyCommand command, CancellationToken cancellationToken)
         {
@@ -122,6 +124,33 @@ namespace FootNotes.MatchManagement.Application.CommandHandlers
 			await matchRepository.UpdateAsync(match);
 
 			return new CommandResponse(match.Id, true);
+        }
+
+        public async Task<CommandResponse> Handle(InsertUpcomingMatchCommand request, CancellationToken cancellationToken)
+        {
+			if(!request.IsValid(out string error))
+			{
+				return new CommandResponse(Guid.Empty, false, error);
+            }
+
+			Dictionary<string, Guid> teamIdsByName = await teamService.GetIdOrCreateTeamsAsync([request.HomeTeamName, request.AwayTeamName]);			
+
+            Match match = Match.CreateUpcoming(
+				teamIdsByName[request.HomeTeamName],
+				teamIdsByName[request.AwayTeamName],
+				request.CompetitionId, request.MatchDate);
+			
+			match.AddEvent(new InsertUpcomingMatchEvent(match.Id)
+			{
+                HomeTeamId = match.HomeTeamId,
+                AwayTeamId = match.AwayTeamId,
+                CompetitionId = match.CompetitionId!.Value,
+                MatchDate = match.MatchDate!.Value,
+            });
+
+            await matchRepository.AddAsync(match);
+
+            return new CommandResponse(Guid.NewGuid(), true);
         }
     }
 }
