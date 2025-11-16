@@ -142,6 +142,22 @@ namespace FootNotes.MatchManagement.Data.Context
 
                 entity.Ignore(e => e.Events);
             });
+
+            modelBuilder.Entity<Competition>().HasData([
+                Competition.Create(
+                    "Premier League",
+                    CompetitionScope.National,
+                    CompetitionType.Clubs,
+                    "2025/2026"
+                ),
+                Competition.Create(
+                    "Brasileirao Serie A",
+                    CompetitionScope.National,
+                    CompetitionType.Clubs,
+                    "2025"
+                )
+
+            ]);
         }
 
 

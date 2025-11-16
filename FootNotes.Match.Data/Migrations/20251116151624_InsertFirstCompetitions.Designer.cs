@@ -3,6 +3,7 @@ using System;
 using FootNotes.MatchManagement.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FootNotes.MatchManagement.Data.Migrations
 {
     [DbContext(typeof(MatchContext))]
-    partial class MatchContextModelSnapshot : ModelSnapshot
+    [Migration("20251116151624_InsertFirstCompetitions")]
+    partial class InsertFirstCompetitions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

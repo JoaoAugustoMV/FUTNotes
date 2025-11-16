@@ -15,12 +15,33 @@ namespace FootNotes.MatchManagement.Domain.CompetitionModels
         public CompetitionType Type { get; private set; }        
         public override void ThrowIfInvalid()
         {
-            throw new NotImplementedException();
+            StringBuilder msgError = new();
+            
+            if (string.IsNullOrWhiteSpace(Name))
+                msgError.AppendLine("Competition name cannot be null or empty.");
+
+            string msgStr = msgError.ToString();
+
+            if (!string.IsNullOrWhiteSpace(msgStr))
+                throw new EntityInvalidException(msgStr);
         }
 
         public Competition(string name)
         {
             Name = name;
+        }
+
+        public static Competition Create(string name, CompetitionScope scope, CompetitionType type, string? season = null)
+        {
+            Competition competition = new(name)
+            {
+                Scope = scope,
+                Type = type,
+                Season = season
+            };
+
+            competition.ThrowIfInvalid();
+            return competition;
         }
     }
 
