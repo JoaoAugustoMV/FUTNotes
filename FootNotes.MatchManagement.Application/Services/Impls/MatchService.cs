@@ -9,6 +9,7 @@ using FootNotes.Core.Messages;
 using FootNotes.MatchManagement.Application.Commands;
 using FootNotes.MatchManagement.Application.Commands.MatchCommands;
 using FootNotes.MatchManagement.Application.Events.TeamEvents;
+using FootNotes.MatchManagement.Application.Providers;
 using FootNotes.MatchManagement.Application.Requests;
 using FootNotes.MatchManagement.Domain.Repository;
 using FootNotes.MatchManagement.Domain.TeamModels;
@@ -16,7 +17,10 @@ using Microsoft.Extensions.Logging;
 
 namespace FootNotes.MatchManagement.Application.Services.Impls
 {
-    public class MatchService(ITeamRepository teamRepository, IMediatorHandler mediatorHandler, ILogger<MatchService> logger) : IMatchService
+    public class MatchService(ITeamRepository teamRepository,
+        IMediatorHandler mediatorHandler,
+        IMatchProvider matchProvider,
+        ILogger<MatchService> logger) : IMatchService
     {        
 
         public async Task<Result<Guid>> CreateMatchManually(CreateMatchManuallyRequest request)
@@ -106,6 +110,11 @@ namespace FootNotes.MatchManagement.Application.Services.Impls
 
         }
 
+        public async Task ProcessUpcommingMatch()
+        {
+            var upcomingMatchs = matchProvider.GetUpcomingMatchs();
 
+
+        }
     }
 }

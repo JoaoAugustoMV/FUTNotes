@@ -3,9 +3,11 @@ using FootNotes.Core.Data.EventSourcing;
 using FootNotes.Core.Messages;
 using FootNotes.Crosscuting.EventSourcing;
 using FootNotes.Crosscuting.Logging;
+using FootNotes.MatchManagement.Adapters.MatchProviders.Dojo;
 using FootNotes.MatchManagement.Application.CommandHandlers;
 using FootNotes.MatchManagement.Application.Commands;
 using FootNotes.MatchManagement.Application.Commands.MatchCommands;
+using FootNotes.MatchManagement.Application.Providers;
 using FootNotes.MatchManagement.Application.Services;
 using FootNotes.MatchManagement.Application.Services.Impls;
 using FootNotes.MatchManagement.Data.Context;
@@ -34,6 +36,12 @@ builder.Services.AddDbContextPool<MatchContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("Default"));
 });
 
+builder.Services.AddHttpClient();
+
+builder.Services.Configure<DojoConfigs>(
+    builder.Configuration.GetSection("DojoConfigs")
+);
+
 # region CQRS and EventSourcing
 builder.Services.AddMediatR(c => c.RegisterServicesFromAssembly(typeof(Program).Assembly));
 builder.Services.AddScoped<IMediatorHandler, MediatorHandler>();
@@ -50,9 +58,12 @@ builder.Services.AddScoped<IEventSourcingRepository, EventSourcingRepository>();
 
 # region Services and Repositories
 builder.Services.AddScoped<IMatchService, MatchService>();
+builder.Services.AddScoped<ITeamService, TeamService>();
 
 builder.Services.AddScoped<ITeamRepository, TeamRepository>();
 builder.Services.AddScoped<IMatchRepository, MatchRepository>();
+
+builder.Services.AddScoped<IMatchProvider, DojoMatchProvider>();
 #endregion
 
 var app = builder.Build();

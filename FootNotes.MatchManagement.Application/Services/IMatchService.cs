@@ -16,6 +16,7 @@ namespace FootNotes.MatchManagement.Application.Services
         Task<Result<bool>> ChangeMatchStatus(UpdateStatusMatchRequest request);
 
         Task<Result<bool>> UpdateMatchScore(UpdateScoreMatchRequest request);
+        Task ProcessUpcommingMatch();
 
     }
 }

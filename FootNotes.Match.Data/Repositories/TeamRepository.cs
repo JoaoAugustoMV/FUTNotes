@@ -16,7 +16,7 @@ namespace FootNotes.MatchManagement.Data.Repositories
     public class TeamRepository(MatchContext dbContext, IMediatorHandler mediatorHandler) : 
         RepositoryBase<Team, MatchContext>(dbContext, mediatorHandler), ITeamRepository
     {
-        public IQueryable<Team> GetByTeamsCode(string[] teamNames)
+        public IQueryable<Team> GetByTeamsCode(IEnumerable<string> teamNames)
         {
             throw new NotImplementedException();
         }

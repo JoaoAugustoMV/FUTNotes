@@ -34,12 +34,16 @@ namespace FootNotes.MatchManagement.Application.Tests.Matchs
             // Arrange
             TeamInfoDTO homeTeamInfo = new("Manchester City", "manchester-city");
             TeamInfoDTO awayTeamInfo = new("Manchester City", "manchester-city");
-            InsertUpcomingMatchCommand command = new()
+            InsertUpcomingMatchsCommand command = new()
             {
-                HomeTeamInfo = homeTeamInfo,
-                AwayTeamInfo = awayTeamInfo,
-                CompetitionId = Guid.NewGuid(),
-                MatchDate = DateTime.UtcNow
+                MatchInfos = [
+                    new UpcomingMatchInfo(
+                         homeTeamInfo,
+                         awayTeamInfo,
+                         Guid.NewGuid(),
+                         DateTime.UtcNow
+                        )
+                    ]
             };
             MatchCommandHandler handler = _mocker.CreateInstance<MatchCommandHandler>();
 
@@ -48,7 +52,7 @@ namespace FootNotes.MatchManagement.Application.Tests.Matchs
 
             // Assert
             _mocker.GetMock<IMatchRepository>().Verify(
-                    r => r.AddAsync(It.IsAny<Match>()), Times.Never
+                    r => r.AddRangeAsync(It.IsAny<IEnumerable<Match>>()), Times.Never
                 );
             Assert.NotNull(result);
             Assert.False(result.Sucess);
@@ -62,18 +66,22 @@ namespace FootNotes.MatchManagement.Application.Tests.Matchs
             // Arrange            
             TeamInfoDTO homeTeamInfo = new ("Liverpool", "liverpool");
             TeamInfoDTO awayTeamInfo = new ("Manchester City", "manchester-city");
-            InsertUpcomingMatchCommand command = new()
+            InsertUpcomingMatchsCommand command = new()
             {
-                HomeTeamInfo = homeTeamInfo,
-                AwayTeamInfo = awayTeamInfo,
-                CompetitionId = Guid.NewGuid(),
-                MatchDate = DateTime.UtcNow
+                MatchInfos = [
+                    new UpcomingMatchInfo(
+                         homeTeamInfo,
+                         awayTeamInfo,
+                         Guid.NewGuid(),
+                         DateTime.UtcNow
+                        )
+                    ]
             };
 
             MatchCommandHandler handler = _mocker.CreateInstance<MatchCommandHandler>();
 
             _mocker.GetMock<ITeamService>()
-                .Setup(r => r.GetIdOrCreateTeamsAsync(It.IsAny<TeamInfoDTO[]>()))
+                .Setup(r => r.GetIdOrCreateTeamsAsync(It.IsAny<IEnumerable<TeamInfoDTO>>()))
                 .ReturnsAsync(
                     new Dictionary<string, Guid>
                     {
@@ -88,7 +96,7 @@ namespace FootNotes.MatchManagement.Application.Tests.Matchs
 
             // Assert
             _mocker.GetMock<IMatchRepository>().Verify(
-                    r => r.AddAsync(It.Is<Match>(m => m.Events.Count != 0 && m.Status == MatchStatus.Scheduled)), Times.Once
+                    r => r.AddRangeAsync(It.Is<IEnumerable<Match>>(m => m.All(x => x.Events.Count != 0 && x.Status == MatchStatus.Scheduled))), Times.Once
                 );
             
             Assert.NotNull(result);

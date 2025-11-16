@@ -13,7 +13,7 @@ namespace FootNotes.MatchManagement.Application.Services.Impls
 {
     public class TeamService(ITeamRepository teamRepository) : ITeamService
     {
-        public async Task<Dictionary<string, Guid>> GetIdOrCreateTeamsAsync(TeamInfoDTO[] teamsInfo)
+        public async Task<Dictionary<string, Guid>> GetIdOrCreateTeamsAsync(IEnumerable<TeamInfoDTO> teamsInfo)
         {
             Dictionary<string, Guid> dict = await teamRepository.GetByTeamsCode(teamsInfo.Select(t => t.Code)).Select(t => new
             {

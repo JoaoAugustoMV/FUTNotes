@@ -9,6 +9,6 @@ namespace FootNotes.MatchManagement.Application.Services
 {
     public interface ITeamService
     {
-        Task<Dictionary<string, Guid>> GetIdOrCreateTeamsAsync(TeamInfoDTO[] teamsInfo);
+        Task<Dictionary<string, Guid>> GetIdOrCreateTeamsAsync(IEnumerable<TeamInfoDTO> teamsInfo);
     }
 }

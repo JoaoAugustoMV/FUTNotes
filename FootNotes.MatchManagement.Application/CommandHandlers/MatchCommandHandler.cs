@@ -19,7 +19,7 @@ namespace FootNotes.MatchManagement.Application.CommandHandlers
 		IRequestHandler<CreateMatchManuallyCommand, CommandResponse>,
         IRequestHandler<UpdateMatchStatusCommand, CommandResponse>,
         IRequestHandler<UpdateScoreMatchCommand, CommandResponse>,
-        IRequestHandler<InsertUpcomingMatchCommand, CommandResponse>
+        IRequestHandler<InsertUpcomingMatchsCommand, CommandResponse>
     {
         public async Task<CommandResponse> Handle(CreateMatchManuallyCommand command, CancellationToken cancellationToken)
         {
@@ -126,30 +126,39 @@ namespace FootNotes.MatchManagement.Application.CommandHandlers
 			return new CommandResponse(match.Id, true);
         }
 
-        public async Task<CommandResponse> Handle(InsertUpcomingMatchCommand request, CancellationToken cancellationToken)
+        public async Task<CommandResponse> Handle(InsertUpcomingMatchsCommand request, CancellationToken cancellationToken)
         {
 			if(!request.IsValid(out string error))
 			{
 				return new CommandResponse(Guid.Empty, false, error);
             }
-
-			Dictionary<string, Guid> teamIdsByName = await teamService.GetIdOrCreateTeamsAsync([request.HomeTeamInfo, request.AwayTeamInfo]);			
-
-            Match match = Match.CreateUpcoming(
-				Match.GenerateCode(request.HomeTeamInfo.Code, request.AwayTeamInfo.Code, request.MatchDate),
-                teamIdsByName[request.HomeTeamInfo.Code],
-				teamIdsByName[request.AwayTeamInfo.Code],
-				request.CompetitionId, request.MatchDate);
 			
-			match.AddEvent(new InsertUpcomingMatchEvent(match.Id)
-			{
-                HomeTeamId = match.HomeTeamId,
-                AwayTeamId = match.AwayTeamId,
-                CompetitionId = match.CompetitionId!.Value,
-                MatchDate = match.MatchDate!.Value,
-            });
+            Dictionary<string, Guid> teamIdsByName = await teamService.GetIdOrCreateTeamsAsync(
+                request.MatchInfos.Select(m => m.HomeTeamInfo).Concat(
+                request.MatchInfos.Select(m => m.AwayTeamInfo))
+                );
 
-            await matchRepository.AddAsync(match);
+			List<Match> newMatches = new();
+            foreach (UpcomingMatchInfo item in request.MatchInfos)
+            {
+				Match match = Match.CreateUpcoming(
+					Match.GenerateCode(item.HomeTeamInfo.Code, item.AwayTeamInfo.Code, item.MatchDate),
+					teamIdsByName[item.HomeTeamInfo.Code],
+					teamIdsByName[item.AwayTeamInfo.Code],
+					item.CompetitionId, item.MatchDate);
+			
+				match.AddEvent(new InsertUpcomingMatchEvent(match.Id)
+				{
+					HomeTeamId = match.HomeTeamId,
+					AwayTeamId = match.AwayTeamId,
+					CompetitionId = match.CompetitionId!.Value,
+					MatchDate = match.MatchDate!.Value,
+				});
+                
+            }
+
+
+            await matchRepository.AddRangeAsync(newMatches);
 
             return new CommandResponse(Guid.NewGuid(), true);
         }
