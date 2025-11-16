@@ -7,8 +7,9 @@ using FootNotes.Core.Messages;
 
 namespace FootNotes.MatchManagement.Application.Events.TeamEvents
 {
-    public class CreateTeamAutomaticEvent(Guid teamId, string teamName) : Event(teamId)
+    public class CreateTeamAutomaticEvent(Guid teamId, string teamName, string teamCode) : Event(teamId)
     {
         public string TeamName { get; } = teamName;
+        public string TeamCode { get; } = teamCode;
     }
 }

@@ -9,6 +9,7 @@ namespace FootNotes.MatchManagement.Domain.TeamModels
 {
     public class Team : Entity, IAggregateRoot
     {
+        public string TeamCode { get; private set; }
         public string Name { get; private set; }
         public string? ShortName { get; private set; }
         public bool HasCreatedManually { get; private set; }
@@ -27,6 +28,12 @@ namespace FootNotes.MatchManagement.Domain.TeamModels
             StringBuilder errorMsg = new();
             if (string.IsNullOrWhiteSpace(Name))
                 errorMsg.AppendLine("Name is required;");
+
+            if (string.IsNullOrWhiteSpace(TeamCode) && !HasCreatedManually)
+            {
+                errorMsg.AppendLine("TeamCode is required;");
+            }            
+            
             string msg = errorMsg.ToString();
 
             if(!string.IsNullOrEmpty(msg)){
@@ -40,7 +47,8 @@ namespace FootNotes.MatchManagement.Domain.TeamModels
             Team team = new()
             {
                 Name = teamName,
-                HasCreatedManually = true
+                HasCreatedManually = true,
+                TeamCode = string.Empty
             };
 
             team.ThrowIfInvalid();
@@ -48,12 +56,13 @@ namespace FootNotes.MatchManagement.Domain.TeamModels
             return team;
         }
 
-        public static Team CreateNotManually(string teamName)
+        public static Team CreateNotManually(string teamName, string teamCode)
         {
             Team team = new()
             {
                 Name = teamName,
-                HasCreatedManually = false
+                HasCreatedManually = false,
+                TeamCode = teamCode
             };
 
             team.ThrowIfInvalid();

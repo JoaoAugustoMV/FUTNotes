@@ -40,6 +40,11 @@ namespace FootNotes.MatchManagement.Data.Context
                     .HasColumnName("id")
                     .IsRequired();
 
+                entity.Property(e => e.Code)
+                    .HasColumnName("match_code")
+                    .IsRequired()
+                    .HasMaxLength(100);
+
                 entity.Property(e => e.AwayPenaltyScore)
                     .HasColumnName("away_penalty_score");
 
@@ -87,6 +92,10 @@ namespace FootNotes.MatchManagement.Data.Context
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
                     .IsRequired();
+
+                entity.Property(e => e.TeamCode)
+                    .HasColumnName("team_code")
+                    .HasMaxLength(100);
 
                 entity.Property(e => e.Name)
                     .HasColumnName("name")

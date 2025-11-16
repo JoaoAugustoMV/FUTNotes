@@ -7,6 +7,7 @@ using FootNotes.Core.Data.Communication;
 using FootNotes.Core.Messages;
 using FootNotes.MatchManagement.Application.CommandHandlers;
 using FootNotes.MatchManagement.Application.Commands.MatchCommands;
+using FootNotes.MatchManagement.Application.DTOs;
 using FootNotes.MatchManagement.Application.Events.MatchEvents;
 using FootNotes.MatchManagement.Application.Services;
 using FootNotes.MatchManagement.Domain.MatchModels;
@@ -31,10 +32,12 @@ namespace FootNotes.MatchManagement.Application.Tests.Matchs
         public async Task InsertMatchCommand_WithInvalidCommand_ShouldReturnFail()
         {
             // Arrange
+            TeamInfoDTO homeTeamInfo = new("Manchester City", "manchester-city");
+            TeamInfoDTO awayTeamInfo = new("Manchester City", "manchester-city");
             InsertUpcomingMatchCommand command = new()
             {
-                HomeTeamName = "",
-                AwayTeamName = "LIVERPOOL",
+                HomeTeamInfo = homeTeamInfo,
+                AwayTeamInfo = awayTeamInfo,
                 CompetitionId = Guid.NewGuid(),
                 MatchDate = DateTime.UtcNow
             };
@@ -57,12 +60,12 @@ namespace FootNotes.MatchManagement.Application.Tests.Matchs
         public async Task InsertMatchCommand_WithValidCommand_ShouldInsertNewMatchAndReturnSucess()
         {
             // Arrange            
-            string homeTeamName = "LIVERPOOL";
-            string awayTeamName = "MANCHESTER_CITY";
+            TeamInfoDTO homeTeamInfo = new ("Liverpool", "liverpool");
+            TeamInfoDTO awayTeamInfo = new ("Manchester City", "manchester-city");
             InsertUpcomingMatchCommand command = new()
             {
-                HomeTeamName = homeTeamName,
-                AwayTeamName = awayTeamName,
+                HomeTeamInfo = homeTeamInfo,
+                AwayTeamInfo = awayTeamInfo,
                 CompetitionId = Guid.NewGuid(),
                 MatchDate = DateTime.UtcNow
             };
@@ -70,12 +73,12 @@ namespace FootNotes.MatchManagement.Application.Tests.Matchs
             MatchCommandHandler handler = _mocker.CreateInstance<MatchCommandHandler>();
 
             _mocker.GetMock<ITeamService>()
-                .Setup(r => r.GetIdOrCreateTeamsAsync(It.IsAny<string[]>()))
+                .Setup(r => r.GetIdOrCreateTeamsAsync(It.IsAny<TeamInfoDTO[]>()))
                 .ReturnsAsync(
                     new Dictionary<string, Guid>
                     {
-                        { homeTeamName, Guid.NewGuid() },
-                        { awayTeamName, Guid.NewGuid() }
+                        { homeTeamInfo.Code, Guid.NewGuid() },
+                        { awayTeamInfo.Code, Guid.NewGuid() }
                     }
                 );
 

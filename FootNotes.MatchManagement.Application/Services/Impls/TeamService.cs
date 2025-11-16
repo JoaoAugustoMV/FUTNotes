@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FootNotes.MatchManagement.Application.DTOs;
 using FootNotes.MatchManagement.Application.Events.TeamEvents;
 using FootNotes.MatchManagement.Domain.Repository;
 using FootNotes.MatchManagement.Domain.TeamModels;
@@ -12,27 +13,27 @@ namespace FootNotes.MatchManagement.Application.Services.Impls
 {
     public class TeamService(ITeamRepository teamRepository) : ITeamService
     {
-        public async Task<Dictionary<string, Guid>> GetIdOrCreateTeamsAsync(string[] teamsName)
+        public async Task<Dictionary<string, Guid>> GetIdOrCreateTeamsAsync(TeamInfoDTO[] teamsInfo)
         {
-            Dictionary<string, Guid> dict = await teamRepository.GetByTeamsName(teamsName).Select(t => new
+            Dictionary<string, Guid> dict = await teamRepository.GetByTeamsCode(teamsInfo.Select(t => t.Code)).Select(t => new
             {
                 t.Id,
-                t.Name
-            }).ToDictionaryAsync(t => t.Name, c => c.Id);
+                t.TeamCode
+            }).ToDictionaryAsync(t => t.TeamCode, c => c.Id);
 
             List<Team> teamsToCreate = [];
 
-            foreach (string teamName in teamsName)
+            foreach (TeamInfoDTO teamInfo in teamsInfo)
             {
-                if(!dict.TryGetValue(teamName, out Guid _))
+                if(!dict.TryGetValue(teamInfo.Code, out Guid _))
                 {
-                    Team team = Team.CreateNotManually(teamName);
+                    Team team = Team.CreateNotManually(teamInfo.Name, teamInfo.Code);
 
-                    team.AddEvent(new CreateTeamAutomaticEvent(team.Id, teamName));
+                    team.AddEvent(new CreateTeamAutomaticEvent(team.Id, teamInfo.Name, teamInfo.Code));
 
                     teamsToCreate.Add(team);
 
-                    dict.Add(teamName, team.Id);
+                    dict.Add(teamInfo.Code, team.Id);
                 }
             }
 

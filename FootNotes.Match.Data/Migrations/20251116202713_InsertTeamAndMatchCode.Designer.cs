@@ -3,6 +3,7 @@ using System;
 using FootNotes.MatchManagement.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FootNotes.MatchManagement.Data.Migrations
 {
     [DbContext(typeof(MatchContext))]
-    partial class MatchContextModelSnapshot : ModelSnapshot
+    [Migration("20251116202713_InsertTeamAndMatchCode")]
+    partial class InsertTeamAndMatchCode
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,7 +58,7 @@ namespace FootNotes.MatchManagement.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("019a8e5b-792c-74fd-9f4c-4dcba43d6458"),
+                            Id = new Guid("019a8e59-af70-731a-b307-c72c97357ca2"),
                             Name = "Premier League",
                             Scope = 3,
                             Season = "2025/2026",
@@ -63,7 +66,7 @@ namespace FootNotes.MatchManagement.Data.Migrations
                         },
                         new
                         {
-                            Id = new Guid("019a8e5b-792c-74fe-bbb2-e10d64e8f3d9"),
+                            Id = new Guid("019a8e59-af70-731b-81b2-22deb795b880"),
                             Name = "Brasileirao Serie A",
                             Scope = 3,
                             Season = "2025",

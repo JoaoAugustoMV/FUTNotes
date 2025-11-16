@@ -133,11 +133,12 @@ namespace FootNotes.MatchManagement.Application.CommandHandlers
 				return new CommandResponse(Guid.Empty, false, error);
             }
 
-			Dictionary<string, Guid> teamIdsByName = await teamService.GetIdOrCreateTeamsAsync([request.HomeTeamName, request.AwayTeamName]);			
+			Dictionary<string, Guid> teamIdsByName = await teamService.GetIdOrCreateTeamsAsync([request.HomeTeamInfo, request.AwayTeamInfo]);			
 
             Match match = Match.CreateUpcoming(
-				teamIdsByName[request.HomeTeamName],
-				teamIdsByName[request.AwayTeamName],
+				Match.GenerateCode(request.HomeTeamInfo.Code, request.AwayTeamInfo.Code, request.MatchDate),
+                teamIdsByName[request.HomeTeamInfo.Code],
+				teamIdsByName[request.AwayTeamInfo.Code],
 				request.CompetitionId, request.MatchDate);
 			
 			match.AddEvent(new InsertUpcomingMatchEvent(match.Id)

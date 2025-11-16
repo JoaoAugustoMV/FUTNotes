@@ -6,6 +6,7 @@ namespace FootNotes.MatchManagement.Domain.MatchModels
 {
     public class Match : Entity, IAggregateRoot
     {
+        public string Code { get; private set; }
         public Guid HomeTeamId { get; private set; }
 
         public Guid AwayTeamId { get; private set; }        
@@ -23,6 +24,8 @@ namespace FootNotes.MatchManagement.Domain.MatchModels
         public uint? HomePenaltyScore { get; private set; }
         public uint? AwayPenaltyScore { get; private set; }
 
+        public bool HasCreatedManually { get; private set; }
+
 
         public override void ThrowIfInvalid()
         {
@@ -30,6 +33,11 @@ namespace FootNotes.MatchManagement.Domain.MatchModels
 
             if (HomeTeamId == AwayTeamId)
                 error.Append("Home Team and Away Team must be different");
+
+            if(!HasCreatedManually && string.IsNullOrEmpty(Code))
+            {
+                error.Append("Code is required;");
+            }
 
             string msg = error.ToString();
 
@@ -54,6 +62,16 @@ namespace FootNotes.MatchManagement.Domain.MatchModels
         {
             AwayScore++;
         }
+
+
+        #endregion
+
+        #region Static Methods
+        public static string GenerateCode(string homeTeamCode, string awayTeamCode, DateTime date)
+        {
+            return string.Concat(homeTeamCode, "_", awayTeamCode, "_", date.ToString("yyyyMMdd"));
+        }
+
         #endregion
 
         #region Factory Methods
@@ -89,6 +107,7 @@ namespace FootNotes.MatchManagement.Domain.MatchModels
         }
 
         public static Match CreateUpcoming(
+            string code,
             Guid homeTeamId,
             Guid awayTeamId,
             Guid competitionId,
@@ -97,6 +116,7 @@ namespace FootNotes.MatchManagement.Domain.MatchModels
         {
             Match match = new()
             {
+                Code = code,
                 HomeTeamId = homeTeamId,
                 AwayTeamId = awayTeamId,
                 MatchDate = matchDate,

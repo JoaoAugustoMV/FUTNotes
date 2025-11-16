@@ -12,6 +12,6 @@ namespace FootNotes.MatchManagement.Domain.Repository
     public interface ITeamRepository: IRepositoryBase<Team>
     {
         Task<Guid> GetIdByName(string name);
-        IQueryable<Team> GetByTeamsName(string[] teamNames);
+        IQueryable<Team> GetByTeamsCode(IEnumerable<string> teamNames);
     }
 }

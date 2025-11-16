@@ -16,6 +16,11 @@ namespace FootNotes.MatchManagement.Data.Repositories
     public class TeamRepository(MatchContext dbContext, IMediatorHandler mediatorHandler) : 
         RepositoryBase<Team, MatchContext>(dbContext, mediatorHandler), ITeamRepository
     {
+        public IQueryable<Team> GetByTeamsCode(string[] teamNames)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<Guid> GetIdByName(string name)
         {
             Guid teamId = Guid.Empty;
