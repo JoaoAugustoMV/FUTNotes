@@ -47,6 +47,19 @@ namespace FootNotes.MatchManagement.Domain.TeamModels
             
             return team;
         }
+
+        public static Team CreateNotManually(string teamName)
+        {
+            Team team = new()
+            {
+                Name = teamName,
+                HasCreatedManually = false
+            };
+
+            team.ThrowIfInvalid();
+
+            return team;
+        }
         #endregion
 
     }
