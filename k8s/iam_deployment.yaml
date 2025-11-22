@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-iam
+  namespace: footnotes
+  labels:
+    app: lbl-deploy-iam
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: lbl-deploy-iam
+  template:
+    metadata:
+      labels:
+        app: lbl-deploy-iam
+    spec:
+      containers:
+      - name: con-iam-api
+        image: foot-notes-iam-api
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8080

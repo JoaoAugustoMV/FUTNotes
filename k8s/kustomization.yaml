@@ -1,0 +1,13 @@
+kind: Kustomization
+metadata:
+  name: kustom-footnotes
+  namespace: footnotes
+
+resources:
+# Run istioctl install --set profile=minimal -y
+  - footnotes_namespace.yaml
+  - github.com/kubernetes-sigs/gateway-api/config/crd?ref=v1.4.0
+  - iam_deployment.yaml
+  - iam_service.yaml
+  - http-route.yaml
+  - gateway-istio.yaml

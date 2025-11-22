@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-iam
+  namespace: footnotes
+spec:  
+  selector:
+    app: lbl-deploy-iam
+  ports:
+    - protocol: TCP
+      port: 8001 # Porta externa
+      targetPort: 8080  # Porta do container

@@ -1,0 +1,15 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: my-gateway-istio
+  namespace: footnotes
+spec:
+  gatewayClassName: istio
+  listeners:
+  - name: default
+    # hostname: "*.footnotes.com"
+    port: 5500
+    protocol: HTTP
+    # allowedRoutes:
+    #   namespaces:
+    #     from: All
