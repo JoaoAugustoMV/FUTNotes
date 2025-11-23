@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FootNotes.Core.Domain;
+using FootNotes.Crosscutting.Utils;
 
 namespace FootNotes.MatchManagement.Domain.TeamModels
 {
@@ -48,7 +49,7 @@ namespace FootNotes.MatchManagement.Domain.TeamModels
                 throw new ArgumentException("Team name cannot be null or empty.", nameof(teamName));
             }
             // Generate a simple team code by taking the first three letters of the team name
-            return teamName.ToLower().Replace(" ", "-");
+            return teamName.RemoveAccents().ToLower().Replace(" ", "-");
         }
 
         #region Factory Methods
