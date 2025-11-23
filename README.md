@@ -28,9 +28,10 @@ To build a **modular and scalable application**, evolving from a simple MVP into
 - **JWT Authentication**
 - **gRPC** for internal communication between contexts/microservices
 - **Grafana** for monitoring
+- **Kubernetes** with **Istio Gateway API**
 
 #### 📱 Frontend (Planned)
-- **Flutter**
+- **Flutter** or **Angular**
 
 ---
 
@@ -43,7 +44,7 @@ To build a **modular and scalable application**, evolving from a simple MVP into
 - [ ] Kafka integration for domain events  
 - [ ] Event Sourcing implementation  
 - [ ] Optimized read models (Full CQRS)  
-- [ ] Flutter interface  
+- [ ] Frontend interface  
 
 ---
 
@@ -76,9 +77,10 @@ Criar uma aplicação modular e escalável, evoluindo de um MVP para um sistema 
 - JWT para autenticação  
 - gRPC para comunicação interna entre contextos/microsserviços
 - Grafana para monitoramento
+- Kubernetes com Istio Gateway API
 
 #### Frontend (planejado)
-- Flutter
+- Flutter ou Angular
 
 ---
 
@@ -92,6 +94,6 @@ Criar uma aplicação modular e escalável, evoluindo de um MVP para um sistema 
 - [ ] Integração com Kafka para eventos de domínio  
 - [ ] Implementação de Event Sourcing  
 - [ ] Read Models otimizados (CQRS completo)  
-- [ ] Interface Flutter  
+- [ ] Frontend Interface  
 
 ---
