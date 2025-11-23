@@ -41,6 +41,16 @@ namespace FootNotes.MatchManagement.Domain.TeamModels
             }
         }
 
+        public static string GenerateTeamCode(string teamName)
+        {
+            if (string.IsNullOrWhiteSpace(teamName))
+            {
+                throw new ArgumentException("Team name cannot be null or empty.", nameof(teamName));
+            }
+            // Generate a simple team code by taking the first three letters of the team name
+            return teamName.ToLower().Replace(" ", "-");
+        }
+
         #region Factory Methods
         public static Team CreateManually(string teamName)
         {

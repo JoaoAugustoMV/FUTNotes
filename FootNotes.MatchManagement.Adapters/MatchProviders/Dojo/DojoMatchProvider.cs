@@ -1,5 +1,7 @@
 ﻿using System.Net.Http.Json;
+using FootNotes.MatchManagement.Application.DTOs;
 using FootNotes.MatchManagement.Application.Providers;
+using FootNotes.MatchManagement.Domain.TeamModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
@@ -21,8 +23,11 @@ namespace FootNotes.MatchManagement.Adapters.MatchProviders.Dojo
                 {
                     allMatches.AddRange(
                         competitionMatchResults[i]!.events
-                        .Select(e => new UpcomingMatchInfo(options.AvailableCompetition[i].InternalId, DateTime.Parse(e.startTimestamp.ToString()), e.homeTeam.name, e.awayTeam.name))
-                    );
+                        .Select(e => new UpcomingMatchInfo(
+                            options.AvailableCompetition[i].InternalId,
+                            DateTime.Parse(e.startTimestamp.ToString()),
+                            new TeamInfoDTO(e.homeTeam.name, Team.GenerateTeamCode(e.homeTeam.name)),
+                            new TeamInfoDTO(e.awayTeam.name, Team.GenerateTeamCode(e.awayTeam.name)))));
                 }
             }
 

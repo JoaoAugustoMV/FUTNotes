@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FootNotes.Core.Messages;
 using FootNotes.MatchManagement.Application.DTOs;
+using FootNotes.MatchManagement.Application.Providers;
 
 namespace FootNotes.MatchManagement.Application.Commands.MatchCommands
 {
@@ -38,7 +39,5 @@ namespace FootNotes.MatchManagement.Application.Commands.MatchCommands
             msg = error.ToString();
             return msg.Length == 0;
         }
-    }
-
-    public record UpcomingMatchInfo(TeamInfoDTO HomeTeamInfo, TeamInfoDTO AwayTeamInfo, Guid CompetitionId, DateTime MatchDate);
+    }    
 }

@@ -11,8 +11,10 @@ using FootNotes.MatchManagement.Application.Commands.MatchCommands;
 using FootNotes.MatchManagement.Application.Events.TeamEvents;
 using FootNotes.MatchManagement.Application.Providers;
 using FootNotes.MatchManagement.Application.Requests;
+using FootNotes.MatchManagement.Domain.MatchModels;
 using FootNotes.MatchManagement.Domain.Repository;
 using FootNotes.MatchManagement.Domain.TeamModels;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace FootNotes.MatchManagement.Application.Services.Impls
@@ -20,6 +22,7 @@ namespace FootNotes.MatchManagement.Application.Services.Impls
     public class MatchService(ITeamRepository teamRepository,
         IMediatorHandler mediatorHandler,
         IMatchProvider matchProvider,
+        IMatchRepository matchRepository,
         ILogger<MatchService> logger) : IMatchService
     {        
 
@@ -112,8 +115,38 @@ namespace FootNotes.MatchManagement.Application.Services.Impls
 
         public async Task ProcessUpcommingMatch()
         {
-            var upcomingMatchs = matchProvider.GetUpcomingMatchs();
+            IEnumerable<UpcomingMatchInfo> upcomingMatchsProvider = await matchProvider.GetUpcomingMatchs();
 
+            if (upcomingMatchsProvider == null || !upcomingMatchsProvider.Any())
+            {
+                logger.LogInformation("No upcoming matchs found from provider.");
+                return;
+            }
+
+            IEnumerable<string>? upcomingMatchsCodes = upcomingMatchsProvider
+                .Select(m => Match.GenerateCode(m.HomeTeamInfo.Code, m.AwayTeamInfo.Code, m.MatchDate));
+
+            HashSet<string> registeredMatchs = [.. await matchRepository.GetAllByCodes(upcomingMatchsCodes).Select(m => m.Code).ToListAsync()];
+
+            List<UpcomingMatchInfo> matchesToInsert = [];
+            foreach (UpcomingMatchInfo item in upcomingMatchsProvider)
+            {
+                if(!registeredMatchs.Contains(Match.GenerateCode(item.HomeTeamInfo.Code, item.AwayTeamInfo.Code, item.MatchDate)))
+                {
+                    matchesToInsert.Add(item);
+                }
+            }
+
+            if(matchesToInsert.Count == 0)
+            {
+                logger.LogInformation("No new upcoming matchs to insert.");
+                return;
+            }
+
+            await mediatorHandler.SendCommand(new InsertUpcomingMatchsCommand()
+            {
+                MatchInfos = matchesToInsert
+            });
 
         }
     }
