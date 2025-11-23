@@ -1,4 +1,5 @@
 ﻿using System.Net.Http.Json;
+using System.Text.Json;
 using FootNotes.MatchManagement.Application.DTOs;
 using FootNotes.MatchManagement.Application.Providers;
 using FootNotes.MatchManagement.Domain.TeamModels;
@@ -25,7 +26,7 @@ namespace FootNotes.MatchManagement.Adapters.MatchProviders.Dojo
                         competitionMatchResults[i]!.events
                         .Select(e => new UpcomingMatchInfo(
                             options.AvailableCompetition[i].InternalId,
-                            DateTime.Parse(e.startTimestamp.ToString()),
+                            DateTimeOffset.FromUnixTimeSeconds(e.startTimestamp).UtcDateTime,
                             new TeamInfoDTO(e.homeTeam.name, Team.GenerateTeamCode(e.homeTeam.name)),
                             new TeamInfoDTO(e.awayTeam.name, Team.GenerateTeamCode(e.awayTeam.name)))));
                 }
@@ -57,7 +58,7 @@ namespace FootNotes.MatchManagement.Adapters.MatchProviders.Dojo
 
             return string.Concat(options.URI_Base,
                 options.Path_NextMatches,
-                $"pageIndex=0&tornamentId={competition.ExternalId}&seasonId={competition.ExternalCurrentSessionId}");                
+                $"?pageIndex=0&tournamentId={competition.ExternalId}&seasonId={competition.ExternalCurrentSessionId}");                
         }
     }
 }
