@@ -1,8 +1,9 @@
 using FootNotes.MatchManagement.Application.Services;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace FootNotes.MatchManagement.Worker
 {
-    public class InsertUpcomingMatchWorker(ILogger<InsertUpcomingMatchWorker> logger, IMatchService matchService) : BackgroundService
+    public class InsertUpcomingMatchWorker(ILogger<InsertUpcomingMatchWorker> logger, IServiceScopeFactory serviceScopeFactory) : BackgroundService
     {
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
@@ -10,9 +11,20 @@ namespace FootNotes.MatchManagement.Worker
             {
                 logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
 
-                await matchService.ProcessUpcommingMatch();
-                //await Task.Delay(TimeSpan.FromHours(24), stoppingToken);
-                await Task.Delay(TimeSpan.FromMinutes(2), stoppingToken);// For testing purposes, set to 2 minutes
+                try
+                {                    
+                    using IServiceScope scope = serviceScopeFactory.CreateScope();
+
+                    IMatchService matchService = scope.ServiceProvider.GetRequiredService<IMatchService>();
+
+                    await matchService.ProcessUpcommingMatch();
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, "An error occurred while processing upcoming matches.");
+                }
+                
+                await Task.Delay(TimeSpan.FromHours(24), stoppingToken);                
             }
         }
     }

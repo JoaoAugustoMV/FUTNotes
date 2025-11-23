@@ -9,6 +9,7 @@ using FootNotes.MatchManagement.Application.CommandHandlers;
 using FootNotes.MatchManagement.Application.Commands.MatchCommands;
 using FootNotes.MatchManagement.Application.DTOs;
 using FootNotes.MatchManagement.Application.Events.MatchEvents;
+using FootNotes.MatchManagement.Application.Providers;
 using FootNotes.MatchManagement.Application.Services;
 using FootNotes.MatchManagement.Domain.MatchModels;
 using FootNotes.MatchManagement.Domain.Repository;
@@ -29,7 +30,7 @@ namespace FootNotes.MatchManagement.Application.Tests.Matchs
         }
 
         [Fact]
-        public async Task InsertMatchCommand_WithInvalidCommand_ShouldReturnFail()
+        public async Task InsertUpcomingMatchsCommand_WithInvalidCommand_ShouldReturnFail()
         {
             // Arrange
             TeamInfoDTO homeTeamInfo = new("Manchester City", "manchester-city");
@@ -38,10 +39,10 @@ namespace FootNotes.MatchManagement.Application.Tests.Matchs
             {
                 MatchInfos = [
                     new UpcomingMatchInfo(
-                         homeTeamInfo,
-                         awayTeamInfo,
                          Guid.NewGuid(),
-                         DateTime.UtcNow
+                         DateTime.UtcNow,
+                         homeTeamInfo,
+                         awayTeamInfo
                         )
                     ]
             };
@@ -61,7 +62,7 @@ namespace FootNotes.MatchManagement.Application.Tests.Matchs
         }
 
         [Fact]
-        public async Task InsertMatchCommand_WithValidCommand_ShouldInsertNewMatchAndReturnSucess()
+        public async Task InsertUpcomingMatchsCommand_WithValidCommand_ShouldInsertNewMatchAndReturnSucess()
         {
             // Arrange            
             TeamInfoDTO homeTeamInfo = new ("Liverpool", "liverpool");
@@ -70,10 +71,10 @@ namespace FootNotes.MatchManagement.Application.Tests.Matchs
             {
                 MatchInfos = [
                     new UpcomingMatchInfo(
-                         homeTeamInfo,
-                         awayTeamInfo,
                          Guid.NewGuid(),
-                         DateTime.UtcNow
+                         DateTime.UtcNow,
+                         homeTeamInfo,
+                         awayTeamInfo
                         )
                     ]
             };
@@ -96,7 +97,8 @@ namespace FootNotes.MatchManagement.Application.Tests.Matchs
 
             // Assert
             _mocker.GetMock<IMatchRepository>().Verify(
-                    r => r.AddRangeAsync(It.Is<IEnumerable<Match>>(m => m.All(x => x.Events.Count != 0 && x.Status == MatchStatus.Scheduled))), Times.Once
+                    r => r.AddRangeAsync(It.Is<IEnumerable<Match>>(m => m.Count() > 0 &&
+                    m.All(x => x.Events.Count != 0 && x.Status == MatchStatus.Scheduled))), Times.Once
                 );
             
             Assert.NotNull(result);

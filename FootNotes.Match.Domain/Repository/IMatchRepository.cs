@@ -10,5 +10,6 @@ namespace FootNotes.MatchManagement.Domain.Repository
 {
     public interface IMatchRepository: IRepositoryBase<Match>
     {
+        public IQueryable<Match> GetAllByCodes(IEnumerable<string> codes);
     }
 }

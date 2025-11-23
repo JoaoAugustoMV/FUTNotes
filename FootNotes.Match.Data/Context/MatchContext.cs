@@ -75,7 +75,10 @@ namespace FootNotes.MatchManagement.Data.Context
 
                 entity.Property(e => e.Status)
                     .HasColumnName("status")
-                    .IsRequired();  
+                    .IsRequired();
+
+                entity.Property(e => e.HasCreatedManually)
+                    .HasColumnName("has_created_manually");
 
                 entity.Ignore(e => e.Events);
             });
@@ -152,21 +155,22 @@ namespace FootNotes.MatchManagement.Data.Context
                 entity.Ignore(e => e.Events);
             });
 
-            modelBuilder.Entity<Competition>().HasData([
-                Competition.Create(
-                    "Premier League",
-                    CompetitionScope.National,
-                    CompetitionType.Clubs,
-                    "2025/2026"
-                ),
-                Competition.Create(
-                    "Brasileirao Serie A",
-                    CompetitionScope.National,
-                    CompetitionType.Clubs,
-                    "2025"
-                )
+            // Only for initial migration.
+            //modelBuilder.Entity<Competition>().HasData([
+            //    Competition.Create(
+            //        "Premier League",
+            //        CompetitionScope.National,
+            //        CompetitionType.Clubs,
+            //        "2025/2026"
+            //    ),
+            //    Competition.Create(
+            //        "Brasileirao Serie A",
+            //        CompetitionScope.National,
+            //        CompetitionType.Clubs,
+            //        "2025"
+            //    )
 
-            ]);
+            //]);
         }
 
 

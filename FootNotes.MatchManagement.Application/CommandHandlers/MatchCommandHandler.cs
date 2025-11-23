@@ -7,6 +7,7 @@ using FootNotes.Core.Messages;
 using FootNotes.MatchManagement.Application.Commands;
 using FootNotes.MatchManagement.Application.Commands.MatchCommands;
 using FootNotes.MatchManagement.Application.Events.MatchEvents;
+using FootNotes.MatchManagement.Application.Providers;
 using FootNotes.MatchManagement.Application.Services;
 using FootNotes.MatchManagement.Domain.MatchModels;
 using FootNotes.MatchManagement.Domain.Repository;
@@ -138,7 +139,7 @@ namespace FootNotes.MatchManagement.Application.CommandHandlers
                 request.MatchInfos.Select(m => m.AwayTeamInfo))
                 );
 
-			List<Match> newMatches = new();
+			List<Match> newMatches = [];
             foreach (UpcomingMatchInfo item in request.MatchInfos)
             {
 				Match match = Match.CreateUpcoming(
@@ -154,7 +155,9 @@ namespace FootNotes.MatchManagement.Application.CommandHandlers
 					CompetitionId = match.CompetitionId!.Value,
 					MatchDate = match.MatchDate!.Value,
 				});
-                
+
+				newMatches.Add(match);
+
             }
 
 

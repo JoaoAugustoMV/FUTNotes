@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FootNotes.MatchManagement.Application.DTOs;
 
 namespace FootNotes.MatchManagement.Application.Providers
 {
     public record UpcomingMatchInfo(        
         Guid CompetitionId,
         DateTime MatchDate,
-        string HomeCode,
-        string AwayCode
+        TeamInfoDTO HomeTeamInfo,
+        TeamInfoDTO AwayTeamInfo
     )
     {
-    }
+    }    
 }

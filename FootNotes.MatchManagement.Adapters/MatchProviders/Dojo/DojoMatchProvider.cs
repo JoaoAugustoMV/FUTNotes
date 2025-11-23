@@ -1,5 +1,8 @@
 ﻿using System.Net.Http.Json;
+using System.Text.Json;
+using FootNotes.MatchManagement.Application.DTOs;
 using FootNotes.MatchManagement.Application.Providers;
+using FootNotes.MatchManagement.Domain.TeamModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
@@ -21,8 +24,11 @@ namespace FootNotes.MatchManagement.Adapters.MatchProviders.Dojo
                 {
                     allMatches.AddRange(
                         competitionMatchResults[i]!.events
-                        .Select(e => new UpcomingMatchInfo(options.AvailableCompetition[i].InternalId, DateTime.Parse(e.startTimestamp.ToString()), e.homeTeam.name, e.awayTeam.name))
-                    );
+                        .Select(e => new UpcomingMatchInfo(
+                            options.AvailableCompetition[i].InternalId,
+                            DateTimeOffset.FromUnixTimeSeconds(e.startTimestamp).UtcDateTime,
+                            new TeamInfoDTO(e.homeTeam.name, Team.GenerateTeamCode(e.homeTeam.name)),
+                            new TeamInfoDTO(e.awayTeam.name, Team.GenerateTeamCode(e.awayTeam.name)))));
                 }
             }
 
@@ -33,6 +39,7 @@ namespace FootNotes.MatchManagement.Adapters.MatchProviders.Dojo
         {
             List<Task<MatchInfoDojoApiResponse?>> tasks = [];
 
+            httpClient.DefaultRequestHeaders.Add(options.Header_API_Key, options.API_Key);
             foreach (DojoConfigCompetition item in options.AvailableCompetition)
             {
                 tasks.Add(
@@ -51,7 +58,7 @@ namespace FootNotes.MatchManagement.Adapters.MatchProviders.Dojo
 
             return string.Concat(options.URI_Base,
                 options.Path_NextMatches,
-                $"pageIndex=0&tornamentId={competition.ExternalId}&seasonId={competition.ExternalCurrentSessionId}");                
+                $"?pageIndex=0&tournamentId={competition.ExternalId}&seasonId={competition.ExternalCurrentSessionId}");                
         }
     }
 }

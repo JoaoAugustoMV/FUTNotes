@@ -3,6 +3,7 @@ using System;
 using FootNotes.MatchManagement.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FootNotes.MatchManagement.Data.Migrations
 {
     [DbContext(typeof(MatchContext))]
-    partial class MatchContextModelSnapshot : ModelSnapshot
+    [Migration("20251123164710_AddColHasCreatedManuallyOnTeam")]
+    partial class AddColHasCreatedManuallyOnTeam
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,6 +54,24 @@ namespace FootNotes.MatchManagement.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("competitions", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("019ab19c-bc45-7179-be31-5546aa9f5ba3"),
+                            Name = "Premier League",
+                            Scope = 3,
+                            Season = "2025/2026",
+                            Type = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("019ab19c-bc45-717a-8ec5-1d00a3aa5f43"),
+                            Name = "Brasileirao Serie A",
+                            Scope = 3,
+                            Season = "2025",
+                            Type = 1
+                        });
                 });
 
             modelBuilder.Entity("FootNotes.MatchManagement.Domain.MatchModels.Match", b =>
@@ -87,8 +108,7 @@ namespace FootNotes.MatchManagement.Data.Migrations
                         .HasColumnName("decision_type");
 
                     b.Property<bool>("HasCreatedManually")
-                        .HasColumnType("boolean")
-                        .HasColumnName("has_created_manually");
+                        .HasColumnType("boolean");
 
                     b.Property<long?>("HomePenaltyScore")
                         .HasColumnType("bigint")
