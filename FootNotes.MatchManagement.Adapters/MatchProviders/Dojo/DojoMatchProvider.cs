@@ -38,6 +38,7 @@ namespace FootNotes.MatchManagement.Adapters.MatchProviders.Dojo
         {
             List<Task<MatchInfoDojoApiResponse?>> tasks = [];
 
+            httpClient.DefaultRequestHeaders.Add(options.Header_API_Key, options.API_Key);
             foreach (DojoConfigCompetition item in options.AvailableCompetition)
             {
                 tasks.Add(

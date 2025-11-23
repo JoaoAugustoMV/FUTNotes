@@ -10,6 +10,8 @@ namespace FootNotes.MatchManagement.Adapters.MatchProviders.Dojo
     {
         public string URI_Base {get;init;}
         public string Path_NextMatches {get;init;}
+        public string API_Key { get; init; }
+        public string Header_API_Key { get; init; }
         public DojoConfigCompetition[] AvailableCompetition { get; init; }
         public DojoConfigs() { }
 
