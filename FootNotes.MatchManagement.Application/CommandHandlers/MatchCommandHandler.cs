@@ -155,7 +155,9 @@ namespace FootNotes.MatchManagement.Application.CommandHandlers
 					CompetitionId = match.CompetitionId!.Value,
 					MatchDate = match.MatchDate!.Value,
 				});
-                
+
+				newMatches.Add(match);
+
             }
 
 
