@@ -97,7 +97,8 @@ namespace FootNotes.MatchManagement.Application.Tests.Matchs
 
             // Assert
             _mocker.GetMock<IMatchRepository>().Verify(
-                    r => r.AddRangeAsync(It.Is<IEnumerable<Match>>(m => m.All(x => x.Events.Count != 0 && x.Status == MatchStatus.Scheduled))), Times.Once
+                    r => r.AddRangeAsync(It.Is<IEnumerable<Match>>(m => m.Count() > 0 &&
+                    m.All(x => x.Events.Count != 0 && x.Status == MatchStatus.Scheduled))), Times.Once
                 );
             
             Assert.NotNull(result);
