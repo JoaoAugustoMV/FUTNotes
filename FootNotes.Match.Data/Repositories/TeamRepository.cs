@@ -18,7 +18,7 @@ namespace FootNotes.MatchManagement.Data.Repositories
     {
         public IQueryable<Team> GetByTeamsCode(IEnumerable<string> teamNames)
         {
-            throw new NotImplementedException();
+            return GetAll().Where(t => teamNames.Contains(t.TeamCode));
         }
 
         public async Task<Guid> GetIdByName(string name)
