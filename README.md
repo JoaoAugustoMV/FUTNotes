@@ -49,7 +49,7 @@ To build a **modular and scalable application**, evolving from a simple MVP into
 ---
 
 ## Architecture of FootNotes
-![Architecture of FootNotes](assets\architecture.svg)
+![Architecture of FootNotes](assets/architecture.svg)
 
 ### Services
 
