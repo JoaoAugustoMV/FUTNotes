@@ -3,6 +3,8 @@ using FootNotes.Core.Data.EventSourcing;
 using FootNotes.Core.Messages;
 using FootNotes.Crosscuting.EventSourcing;
 using FootNotes.Crosscuting.Logging;
+using FootNotes.MatchManagement.Adapters.MatchProviders.Dojo;
+using FootNotes.MatchManagement.Application.Providers;
 using FootNotes.MatchManagement.Application.Services;
 using FootNotes.MatchManagement.Application.Services.Impls;
 using FootNotes.MatchManagement.Data.Context;
@@ -17,6 +19,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddGrpc();
+builder.Services.AddHttpClient();
 # region Logging
 LoggingConfiguration.Configure(builder.Configuration);
 builder.Host.UseSerilog();
@@ -42,6 +45,9 @@ builder.Services.AddScoped<IMatchService, MatchService>();
 
 builder.Services.AddScoped<ITeamRepository, TeamRepository>();
 builder.Services.AddScoped<IMatchRepository, MatchRepository>();
+
+builder.Services.AddScoped<IMatchProvider, DojoMatchProvider>();
+
 #endregion
 var app = builder.Build();
 

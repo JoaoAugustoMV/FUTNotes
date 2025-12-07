@@ -31,6 +31,7 @@
     <ProjectReference Include="..\FootNotes.Crosscuting.Logging\FootNotes.Crosscuting.Logging.csproj" />
     <ProjectReference Include="..\FootNotes.Match.Data\FootNotes.MatchManagement.Data.csproj" />
     <ProjectReference Include="..\FootNotes.Match.Domain\FootNotes.MatchManagement.Domain.csproj" />
+    <ProjectReference Include="..\FootNotes.MatchManagement.Adapters\FootNotes.MatchManagement.Adapters.csproj" />
     <ProjectReference Include="..\FootNotes.MatchManagement.Application\FootNotes.MatchManagement.Application.csproj" />
   </ItemGroup>
 
