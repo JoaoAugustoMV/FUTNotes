@@ -48,6 +48,17 @@ To build a **modular and scalable application**, evolving from a simple MVP into
 
 ---
 
+## Architecture of FootNotes
+![Architecture of FootNotes](assets\architecture.svg)
+
+### Services
+
+- IAM.API: Manage users and authentication
+- Annotations.API: Manage match annotations
+- MatchManagement.API: Manages the creation and updating of matches.
+- MatchManagement.Integration: Integrates match context and annotations
+- MatchManagement.Worker: Register matches using a match information provider.
+
 
 ## 🇧🇷 Versão em Português
 
