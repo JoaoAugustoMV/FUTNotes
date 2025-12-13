@@ -6,7 +6,7 @@
 
 **FutNotes** is an application designed for sports commentators and journalists, allowing them to record real-time notes, match evaluations, and player performance ratings while watching football matches.  
 
-The project was created primarily as a **practical study** of **CQRS**, **Event Sourcing**, **Saga Pattern**, and **Kafka**, using **.NET 8** as the main backend framework.
+The project was created primarily as a **practical study** of **CQRS** and **Event Sourcing**, using **.NET 8** as the main backend framework.
 
 ---
 
@@ -24,7 +24,6 @@ To build a **modular and scalable application**, evolving from a simple MVP into
 - **PostgreSQL**  
 - **CQRS + Mediator Pattern (MediatR)**  
 - **Kurrent.IO** – Event Sourcing database  
-- **Kafka** (Messaging / Event Streaming)(planned))  
 - **JWT Authentication**
 - **gRPC** for internal communication between contexts/microservices
 - **Grafana** for monitoring
@@ -32,19 +31,6 @@ To build a **modular and scalable application**, evolving from a simple MVP into
 
 #### 📱 Frontend (Planned)
 - **Flutter** or **Angular**
-
----
-
-### 🚀 Roadmap (Planned Evolution)
-
-- [x] User registration and authentication  
-- [x] CRUD for matches
-- [x] Notes creation for matches
-- [ ] Player and match evaluation features  
-- [ ] Kafka integration for domain events  
-- [ ] Event Sourcing implementation  
-- [ ] Optimized read models (Full CQRS)  
-- [ ] Frontend interface  
 
 ---
 
@@ -66,7 +52,7 @@ To build a **modular and scalable application**, evolving from a simple MVP into
 
 O **FutNotes** é um aplicativo voltado para comentaristas e jornalistas esportivos, que permite registrar anotações, avaliações de partidas e desempenho de jogadores em tempo real enquanto assistem aos jogos.  
 
-O projeto nasceu com o objetivo principal de **servir como estudo prático** de **CQRS, Event Sourcing, Saga Pattern e Kafka** utilizando **.NET 8**.
+O projeto nasceu com o objetivo principal de **servir como estudo prático** de **CQRS e Event Sourcing** utilizando **.NET 8**.
 
 ---
 
@@ -84,7 +70,6 @@ Criar uma aplicação modular e escalável, evoluindo de um MVP para um sistema 
 - PostgreSQL  
 - CQRS + Mediator Pattern(Mediatr)  
 - Kurrent.IO - Banco de dados para o Event Sourcing  
-- Kafka (mensageria/eventos)
 - JWT para autenticação  
 - gRPC para comunicação interna entre contextos/microsserviços
 - Grafana para monitoramento
@@ -92,19 +77,5 @@ Criar uma aplicação modular e escalável, evoluindo de um MVP para um sistema 
 
 #### Frontend (planejado)
 - Flutter ou Angular
-
----
-
-
-### 🚀 Roadmap (Evolução Planejada)
-
-- [x] Cadastro e login de usuário  
-- [x] CRUD de partidas
-- [x] Criação de anotações para partidas e times
-- [ ] Criação de notas de jogadores  
-- [ ] Integração com Kafka para eventos de domínio  
-- [ ] Implementação de Event Sourcing  
-- [ ] Read Models otimizados (CQRS completo)  
-- [ ] Frontend Interface  
 
 ---
